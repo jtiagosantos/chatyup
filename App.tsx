@@ -1,3 +1,4 @@
+import 'react-native-reanimated';
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
