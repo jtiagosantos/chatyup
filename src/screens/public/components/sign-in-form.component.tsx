@@ -10,7 +10,7 @@ type SignInFormProps = {
 
 export const SignInForm: FC<SignInFormProps> = ({ onChangeToSignUpForm }) => {
   return (
-    <>
+    <Flex>
       <TextField.Root>
         <TextField.Label>E-mail</TextField.Label>
         <TextField.Input placeholder="Digite seu e-mail" />
@@ -30,7 +30,7 @@ export const SignInForm: FC<SignInFormProps> = ({ onChangeToSignUpForm }) => {
           Esqueci a senha
         </Link>
       </Flex>
-      <Flex align="center" mt="24px">
+      <Flex align="center" mt="16px">
         <Link
           onPress={onChangeToSignUpForm}
           _text={{
@@ -41,6 +41,6 @@ export const SignInForm: FC<SignInFormProps> = ({ onChangeToSignUpForm }) => {
           Criar uma conta
         </Link>
       </Flex>
-    </>
+    </Flex>
   );
 };
