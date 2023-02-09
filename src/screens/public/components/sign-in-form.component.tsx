@@ -20,7 +20,17 @@ export const SignInForm: FC<SignInFormProps> = ({ onChangeToSignUpForm }) => {
         <TextField.Input placeholder="Digite sua senha" />
       </TextField.Root>
       <Button>Entrar</Button>
-      <Flex align="center" mt="16px">
+      <Flex align="center" mt="24px">
+        <Link
+          _text={{
+            color: 'violet.800',
+            fontSize: '14px',
+            fontWeight: 'medium',
+          }}>
+          Esqueci a senha
+        </Link>
+      </Flex>
+      <Flex align="center" mt="24px">
         <Link
           onPress={onChangeToSignUpForm}
           _text={{

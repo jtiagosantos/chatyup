@@ -22,7 +22,7 @@ export const AuthScreen = () => {
         </Text>
       </Box>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Box mt="80px" mb="16px">
+        <Box mt="80px" mb="24px">
           {selectedForm === 'signIn' ? (
             <SignInForm onChangeToSignUpForm={() => setSelectedForm('signUp')} />
           ) : (

@@ -28,7 +28,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
         <TextField.Input placeholder="Digite sua senha" />
       </TextField.Root>
       <Button>Criar conta</Button>
-      <Flex align="center" mt="16px">
+      <Flex align="center" mt="24px">
         <Link
           onPress={onChangeToSignInForm}
           _text={{
