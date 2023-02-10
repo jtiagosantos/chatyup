@@ -17,9 +17,13 @@ type SignInFormData = z.infer<typeof signFormSchema>;
 
 type SignInFormProps = {
   onChangeToSignUpForm: () => void;
+  onChangeToRecoveryPasswordForm: () => void;
 };
 
-export const SignInForm: FC<SignInFormProps> = ({ onChangeToSignUpForm }) => {
+export const SignInForm: FC<SignInFormProps> = ({
+  onChangeToSignUpForm,
+  onChangeToRecoveryPasswordForm,
+}) => {
   const {
     control,
     handleSubmit,
@@ -40,6 +44,11 @@ export const SignInForm: FC<SignInFormProps> = ({ onChangeToSignUpForm }) => {
   const handleChangeToSignUpForm = () => {
     clearErrors();
     onChangeToSignUpForm();
+  };
+
+  const handleChangeToRecoveryPasswordForm = () => {
+    clearErrors();
+    onChangeToRecoveryPasswordForm();
   };
 
   return (
@@ -68,6 +77,7 @@ export const SignInForm: FC<SignInFormProps> = ({ onChangeToSignUpForm }) => {
       <Button onPress={handleSubmit(onSubmit)}>Entrar</Button>
       <Flex align="center" mt="24px">
         <Link
+          onPress={handleChangeToRecoveryPasswordForm}
           _text={{
             color: 'violet.800',
             fontSize: '14px',
