@@ -5,24 +5,33 @@ import { useAnimationState, MotiView } from 'moti';
 
 import { SignInForm } from './components/sign-in-form.component';
 import { SignUpForm } from './components/sign-up-form.component';
+import { RecoveryPasswordForm } from './components/recovery-password-form.component';
 
 import { useDimensions } from '../../common/hooks/use-dimensions.hook';
 
 import Logo from '../../common/assets/logo.svg';
 
+type SelectedForm = 'signIn' | 'signUp' | 'recoveryPassword';
+
 export const AuthScreen = () => {
   const { height, width } = useDimensions();
-  const [selectedForm, setSelectedForm] = useState<'signIn' | 'signUp'>('signIn');
+  const [selectedForm, setSelectedForm] = useState<SelectedForm>('signIn');
 
   const isSignInFormSelected = selectedForm === 'signIn';
   const isSignUpFormSelected = selectedForm === 'signUp';
+  const isRecoveryPasswordFormSelected = selectedForm === 'recoveryPassword';
+
   const signInFormAnimationState = useAnimationState({
     from: {
       translateX: 0,
       opacity: 1,
     },
-    to: {
+    toSignUp: {
       translateX: -width,
+      opacity: 0,
+    },
+    toRecoveryPassword: {
+      translateX: width,
       opacity: 0,
     },
   });
@@ -36,22 +45,44 @@ export const AuthScreen = () => {
       opacity: 1,
     },
   });
+  const recoveryPasswordFormAnimationState = useAnimationState({
+    from: {
+      translateX: -width,
+      opacity: 0,
+    },
+    to: {
+      translateX: 0,
+      opacity: 1,
+    },
+  });
 
   const handleChangeToSignUpForm = () => {
-    signInFormAnimationState.transitionTo('to');
+    signInFormAnimationState.transitionTo('toSignUp');
     signUpFormAnimationState.transitionTo('to');
     setSelectedForm('signUp');
   };
 
-  const handleChangeToSignInForm = () => {
+  const handleChangeToSignInForm = (origin: 'signUp' | 'recoveryPassword') => {
+    if (origin === 'signUp') {
+      signUpFormAnimationState.transitionTo('from');
+    }
+    if (origin === 'recoveryPassword') {
+      recoveryPasswordFormAnimationState.transitionTo('from');
+    }
     signInFormAnimationState.transitionTo('from');
-    signUpFormAnimationState.transitionTo('from');
     setSelectedForm('signIn');
+  };
+
+  const handleChangeToRecoveryPasswordForm = () => {
+    signInFormAnimationState.transitionTo('toRecoveryPassword');
+    recoveryPasswordFormAnimationState.transitionTo('to');
+    setSelectedForm('recoveryPassword');
   };
 
   useEffect(() => {
     signInFormAnimationState.transitionTo('from');
     signUpFormAnimationState.transitionTo('from');
+    recoveryPasswordFormAnimationState.transitionTo('from');
   }, []);
 
   return (
@@ -72,9 +103,12 @@ export const AuthScreen = () => {
             state={signInFormAnimationState}
             style={{
               width: '100%',
-              position: isSignUpFormSelected ? 'absolute' : 'relative',
+              position: isSignInFormSelected ? 'relative' : 'absolute',
             }}>
-            <SignInForm onChangeToSignUpForm={handleChangeToSignUpForm} />
+            <SignInForm
+              onChangeToSignUpForm={handleChangeToSignUpForm}
+              onChangeToRecoveryPasswordForm={handleChangeToRecoveryPasswordForm}
+            />
           </MotiView>
           <MotiView
             transition={{
@@ -84,9 +118,23 @@ export const AuthScreen = () => {
             state={signUpFormAnimationState}
             style={{
               width: '100%',
-              position: isSignInFormSelected ? 'absolute' : 'relative',
+              position: isSignUpFormSelected ? 'relative' : 'absolute',
             }}>
-            <SignUpForm onChangeToSignInForm={handleChangeToSignInForm} />
+            <SignUpForm onChangeToSignInForm={() => handleChangeToSignInForm('signUp')} />
+          </MotiView>
+          <MotiView
+            transition={{
+              type: 'timing',
+              duration: 1000,
+            }}
+            state={recoveryPasswordFormAnimationState}
+            style={{
+              width: '100%',
+              position: isRecoveryPasswordFormSelected ? 'relative' : 'absolute',
+            }}>
+            <RecoveryPasswordForm
+              onChangeToSignInForm={() => handleChangeToSignInForm('recoveryPassword')}
+            />
           </MotiView>
         </Flex>
       </ScrollView>
