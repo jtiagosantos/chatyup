@@ -17,7 +17,7 @@ const signUpFirstStepFormSchema = z.object({
   password: z
     .string()
     .min(1, { message: 'Campo obrigatório' })
-    .min(8, { message: 'Mínimo de 8 caracteres' })
+    .min(6, { message: 'Mínimo de 6 caracteres' })
     .trim(),
 });
 
