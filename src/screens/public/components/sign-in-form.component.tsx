@@ -46,7 +46,12 @@ export const SignInForm: FC<SignInFormProps> = ({ onChangeToSignUpForm }) => {
     <Flex>
       <TextField.Root isInvalid={!!errors.email}>
         <TextField.Label>E-mail</TextField.Label>
-        <TextField.Input control={control} name="email" placeholder="Digite seu e-mail" />
+        <TextField.Input
+          control={control}
+          name="email"
+          keyboardType="email-address"
+          placeholder="Digite seu e-mail"
+        />
         {!!errors.email && <TextField.Error>{errors.email.message}</TextField.Error>}
       </TextField.Root>
       <TextField.Root isInvalid={!!errors.password} mt="16px" mb="32px">
