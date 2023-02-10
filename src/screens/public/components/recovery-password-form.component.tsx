@@ -11,8 +11,8 @@ import type { SubmitHandler } from 'react-hook-form';
 const recoveryPasswordFormSchema = z.object({
   email: z
     .string()
-    .email({ message: 'E-mail inválido' })
-    .min(1, { message: 'Campo obrigatório' }),
+    .min(1, { message: 'Campo obrigatório' })
+    .email({ message: 'E-mail inválido' }),
 });
 
 type RecoveryPasswordFormData = z.infer<typeof recoveryPasswordFormSchema>;
