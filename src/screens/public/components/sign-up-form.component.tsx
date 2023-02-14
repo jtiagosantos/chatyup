@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Link, Flex } from 'native-base';
+import { Link, Flex, useToast } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+import { FindOneUserService } from '../../../modules/user/services/find-one-user.service';
+import { CreateOneUserToDatabaseService } from '../../../modules/user/services/create-one-user-to-database.service';
+import { CreateOneUserToAuthService } from '../../../modules/user/services/create-one-user-to-auth.service';
+
 import { TextField, Button } from '../../../common/components';
+
+import { useLoading } from '../../../common/hooks/use-loding.hook';
 
 import type { FC } from 'react';
 
@@ -38,7 +44,11 @@ type SignUpFormProps = {
 };
 
 export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
+  const { isLoading, enableLoading, disableLoading } = useLoading();
   const [formStep, setFormStep] = useState<1 | 2>(1);
+  const [showLinkToSignInForm, setShowLinkToSignInForm] = useState(false);
+  const toast = useToast();
+
   const isFirstStep = formStep === 1;
   const isSecondStep = formStep === 2;
   const resolver = isFirstStep ? signUpFirstStepFormSchema : signUpSecondStepFormSchema;
@@ -47,8 +57,9 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
     control,
     handleSubmit,
     reset,
-    clearErrors,
     getValues,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<SignUpFormData>({
     defaultValues: {
@@ -68,18 +79,70 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
     setFormStep(1);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (isFirstStep) {
+      enableLoading();
+
+      const { email } = getValues();
+
+      const user = await FindOneUserService.execute({ email });
+
+      disableLoading();
+
+      if (user) {
+        setError('email', { message: 'E-mail informado já em uso' });
+        return;
+      }
+
       handleNextFormStep();
       return;
     }
 
-    console.log(getValues());
+    enableLoading();
+
+    const { email, password, first_name, username } = getValues();
+
+    const user = await FindOneUserService.execute({ username });
+
+    if (user) {
+      disableLoading();
+      setError('username', { message: 'Nome de usuário informado já em uso' });
+      return;
+    }
+
+    await CreateOneUserToAuthService.execute({ email, password });
+    await CreateOneUserToDatabaseService.execute({
+      firstName: first_name,
+      username,
+      email,
+    });
+
+    setShowLinkToSignInForm(true);
+    disableLoading();
+
+    toast.closeAll();
+    toast.show({
+      title: 'Conta criada com sucesso',
+      bgColor: 'success.900',
+      mb: -5,
+    });
   };
 
   const handleChangeToSignInForm = () => {
+    toast.closeAll();
     clearErrors();
+    setFormStep(1);
+    setShowLinkToSignInForm(false);
     onChangeToSignInForm();
+  };
+
+  const clearFormFields = () => {
+    reset({
+      first_name: '',
+      username: '',
+      email: '',
+      password: '',
+    });
   };
 
   useEffect(() => {
@@ -111,7 +174,9 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
               <TextField.Error>{errors.password.message}</TextField.Error>
             )}
           </TextField.Root>
-          <Button onPress={handleSubmit(onSubmit)}>Continuar</Button>
+          <Button onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
+            Continuar
+          </Button>
           <Flex align="center" mt="24px">
             <Link
               onPress={handleChangeToSignInForm}
@@ -149,7 +214,9 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
               <TextField.Error>{errors.username.message}</TextField.Error>
             )}
           </TextField.Root>
-          <Button onPress={handleSubmit(onSubmit)}>Criar conta</Button>
+          <Button onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
+            Criar conta
+          </Button>
           <Flex align="center" mt="24px">
             <Link
               onPress={handlePreviousFormStep}
@@ -161,6 +228,22 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
               Voltar para a etapa anterior
             </Link>
           </Flex>
+          {showLinkToSignInForm && (
+            <Flex align="center" mt="24px">
+              <Link
+                onPress={() => {
+                  clearFormFields();
+                  handleChangeToSignInForm();
+                }}
+                _text={{
+                  color: 'violet.800',
+                  fontSize: '14px',
+                  fontWeight: 'medium',
+                }}>
+                Acessar minha conta
+              </Link>
+            </Flex>
+          )}
         </>
       )}
     </Flex>
