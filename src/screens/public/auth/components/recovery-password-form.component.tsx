@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-import { RecoveryPasswordService } from '../../../modules/user/services/recovery-password.service';
+import { RecoveryPasswordService } from '../../../../modules/user/services/recovery-password.service';
 
-import { TextField, Button } from '../../../common/components';
+import { TextField, Button } from '../../../../common/components';
 
-import { useLoading } from '../../../common/hooks/use-loding.hook';
+import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
-import { EFirebaseErrors } from '../../../infra/firebase/enums/firebase-errors.enum';
+import { EFirebaseErrors } from '../../../../infra/firebase/enums/firebase-errors.enum';
 
 import type { FC } from 'react';
 import type { SubmitHandler } from 'react-hook-form';

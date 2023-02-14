@@ -4,13 +4,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-import { FindOneUserService } from '../../../modules/user/services/find-one-user.service';
-import { CreateOneUserToDatabaseService } from '../../../modules/user/services/create-one-user-to-database.service';
-import { CreateOneUserToAuthService } from '../../../modules/user/services/create-one-user-to-auth.service';
+import { FindOneUserService } from '../../../../modules/user/services/find-one-user.service';
+import { CreateOneUserToDatabaseService } from '../../../../modules/user/services/create-one-user-to-database.service';
+import { CreateOneUserToAuthService } from '../../../../modules/user/services/create-one-user-to-auth.service';
 
-import { TextField, Button } from '../../../common/components';
+import { TextField, Button } from '../../../../common/components';
 
-import { useLoading } from '../../../common/hooks/use-loding.hook';
+import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
 import type { FC } from 'react';
 

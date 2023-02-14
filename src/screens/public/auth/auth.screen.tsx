@@ -7,9 +7,9 @@ import { SignInForm } from './components/sign-in-form.component';
 import { SignUpForm } from './components/sign-up-form.component';
 import { RecoveryPasswordForm } from './components/recovery-password-form.component';
 
-import { useDimensions } from '../../common/hooks/use-dimensions.hook';
+import { useDimensions } from '../../../common/hooks/use-dimensions.hook';
 
-import Logo from '../../common/assets/logo.svg';
+import Logo from '../../../common/assets/logo.svg';
 
 type SelectedForm = 'signIn' | 'signUp' | 'recoveryPassword';
 

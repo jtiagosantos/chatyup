@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //public
-import { AuthScreen } from '../../screens/public/auth.screen';
+import { AuthScreen } from '../../screens/public/auth/auth.screen';
 
 import type { StackRoutesList } from '../types/stack-routes-list.type';
 
