@@ -10,6 +10,8 @@ import { TextField, Button } from '../../../common/components';
 
 import { useLoading } from '../../../common/hooks/use-loding.hook';
 
+import { EFirebaseErrors } from '../../../infra/firebase/enums/firebase-errors.enum';
+
 import type { FC } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 
@@ -56,9 +58,9 @@ export const SignInForm: FC<SignInFormProps> = ({
       if (error?.code) {
         const { code } = error;
 
-        if (code === 'auth/user-not-found') {
+        if (code === EFirebaseErrors.USER_NOT_FOUND) {
           setError('email', { message: 'E-mail não cadastrado' });
-        } else if (code === 'auth/wrong-password') {
+        } else if (code === EFirebaseErrors.WRONG_PASSWORD) {
           setError('password', { message: 'Senha inválida' });
         }
       }
