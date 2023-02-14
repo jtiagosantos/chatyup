@@ -3,7 +3,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+import { SignInService } from '../../../modules/user/services/sign-in.service';
+import { FindOneUserService } from '../../../modules/user/services/find-one-user.service';
+
 import { TextField, Button } from '../../../common/components';
+
+import { useLoading } from '../../../common/hooks/use-loding.hook';
 
 import type { FC } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -28,6 +33,8 @@ export const SignInForm: FC<SignInFormProps> = ({
     control,
     handleSubmit,
     clearErrors,
+    setError,
+    reset,
     formState: { errors },
   } = useForm<SignInFormData>({
     defaultValues: {
@@ -36,19 +43,47 @@ export const SignInForm: FC<SignInFormProps> = ({
     },
     resolver: zodResolver(signFormSchema),
   });
+  const { isLoading, enableLoading, disableLoading } = useLoading();
 
-  const onSubmit: SubmitHandler<SignInFormData> = ({ email, password }) => {
-    console.log(email, password);
+  const onSubmit: SubmitHandler<SignInFormData> = async ({ email, password }) => {
+    try {
+      enableLoading();
+      await SignInService.execute({ email, password });
+      const user = await FindOneUserService.execute({ email });
+      clearFormFields();
+      console.log(user);
+    } catch (error: any) {
+      if (error?.code) {
+        const { code } = error;
+
+        if (code === 'auth/user-not-found') {
+          setError('email', { message: 'E-mail não cadastrado' });
+        } else if (code === 'auth/wrong-password') {
+          setError('password', { message: 'Senha inválida' });
+        }
+      }
+    } finally {
+      disableLoading();
+    }
   };
 
   const handleChangeToSignUpForm = () => {
     clearErrors();
+    clearFormFields();
     onChangeToSignUpForm();
   };
 
   const handleChangeToRecoveryPasswordForm = () => {
     clearErrors();
+    clearFormFields();
     onChangeToRecoveryPasswordForm();
+  };
+
+  const clearFormFields = () => {
+    reset({
+      email: '',
+      password: '',
+    });
   };
 
   return (
@@ -74,7 +109,9 @@ export const SignInForm: FC<SignInFormProps> = ({
           <TextField.Error>{errors.password.message}</TextField.Error>
         )}
       </TextField.Root>
-      <Button onPress={handleSubmit(onSubmit)}>Entrar</Button>
+      <Button onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
+        Entrar
+      </Button>
       <Flex align="center" mt="24px">
         <Link
           onPress={handleChangeToRecoveryPasswordForm}
