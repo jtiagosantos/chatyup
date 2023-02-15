@@ -3,14 +3,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //public
 import { AuthScreen } from '../../screens/public/auth/auth.screen';
 
-import type { StackRoutesList } from '../types/stack-routes-list.type';
+//private
+import { HomeScreen } from '../../screens/private/home/home.screen';
 
-const Stack = createNativeStackNavigator<StackRoutesList>();
+import type { RoutesList } from '../types/routes-list.type';
+
+const Stack = createNativeStackNavigator<RoutesList>();
 
 export const AppRoutes = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="auth" component={AuthScreen} />
+      <Stack.Screen name="home" component={HomeScreen} />
     </Stack.Navigator>
   );
 };
