@@ -1,6 +1,7 @@
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import { UserMapper } from '../../../infra/firebase/mappers/user.mapper';
 import { ECollections } from '../../../infra/firebase/enums/collections.enum';
-import type { User } from '../types/user.type';
+import type { UserFromFirestore } from '../../../infra/firebase/mappers/user.mapper';
 
 type FindOneUserInput = {
   email?: string;
@@ -27,7 +28,14 @@ export class FindOneUserService {
 
     if (!userExists) return null;
 
-    const user = response!.docs?.[0]?.data() as User;
+    const userFromFirestore = response!.docs?.[0]?.data() as UserFromFirestore;
+    const userId = response!.docs?.[0].id;
+
+    const formattedUser = UserMapper.toDomain(userFromFirestore);
+    const user = {
+      ...formattedUser,
+      id: userId,
+    };
 
     return user;
   }
