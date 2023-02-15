@@ -89,7 +89,7 @@ export const AuthScreen = () => {
     <Box h={`${height}px`} flex={1} p="24px" pt="32px" pb={0} bgColor="gray.900">
       <Box maxW="250px">
         <Logo />
-        <Text color="gray.400" fontSize="16px" fontWeight="light">
+        <Text color="gray.500" fontSize="16px">
           Converse com os seus amigos de forma simples e rápida
         </Text>
       </Box>
