@@ -36,14 +36,14 @@ export const ChatRoomScreen = () => {
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <Box h={`${height}px`} flex={1} p="24px" pt="32px" pb={0} bgColor="gray.900">
-        <Box maxW="250px">
-          <Logo />
-          <Text color="gray.500" fontSize="16px">
-            Converse com os seus amigos de forma simples e rápida
-          </Text>
-        </Box>
+    <Box h={`${height}px`} flex={1} p="24px" pt="32px" pb={0} bgColor="gray.900">
+      <Box maxW="250px">
+        <Logo />
+        <Text color="gray.500" fontSize="16px">
+          Converse com os seus amigos de forma simples e rápida
+        </Text>
+      </Box>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Box w="full" mt="88px">
           <Text color="gray.400" fontSize="16px">
             Para entrar em uma sala de conversa com os seus amigos, insira o código da
@@ -64,7 +64,7 @@ export const ChatRoomScreen = () => {
             </Button>
           </Box>
         </Box>
-      </Box>
-    </ScrollView>
+      </ScrollView>
+    </Box>
   );
 };
