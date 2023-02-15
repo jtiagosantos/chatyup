@@ -53,7 +53,6 @@ export const SignInForm: FC<SignInFormProps> = ({
       await SignInService.execute({ email, password });
       const user = await FindOneUserService.execute({ email });
       clearFormFields();
-      console.log(user);
     } catch (error: any) {
       if (error?.code) {
         const { code } = error;
@@ -105,6 +104,7 @@ export const SignInForm: FC<SignInFormProps> = ({
         <TextField.Input
           control={control}
           name="password"
+          type="password"
           placeholder="Digite sua senha"
         />
         {!!errors.password && (

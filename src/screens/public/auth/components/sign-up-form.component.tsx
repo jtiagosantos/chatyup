@@ -131,6 +131,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
   const handleChangeToSignInForm = () => {
     toast.closeAll();
     clearErrors();
+    clearFormFields();
     setFormStep(1);
     setShowLinkToSignInForm(false);
     onChangeToSignInForm();
@@ -168,6 +169,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
             <TextField.Input
               control={control}
               name="password"
+              type="password"
               placeholder="Digite sua senha"
             />
             {!!errors.password && (
@@ -231,10 +233,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
           {showLinkToSignInForm && (
             <Flex align="center" mt="24px">
               <Link
-                onPress={() => {
-                  clearFormFields();
-                  handleChangeToSignInForm();
-                }}
+                onPress={handleChangeToSignInForm}
                 _text={{
                   color: 'violet.800',
                   fontSize: '14px',
