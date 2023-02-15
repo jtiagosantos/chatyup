@@ -1,7 +1,7 @@
-import { StackRoutesList } from './stack-routes-list.type';
+import { RoutesList } from './routes-list.type';
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends StackRoutesList {}
+    interface RootParamList extends RoutesList {}
   }
 }
