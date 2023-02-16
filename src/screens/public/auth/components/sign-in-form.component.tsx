@@ -2,7 +2,6 @@ import { Link, Flex } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useNavigation } from '@react-navigation/native';
 
 import { FindOneUserService } from '../../../../modules/user/services/find-one-user.service';
 
@@ -46,7 +45,6 @@ export const SignInForm: FC<SignInFormProps> = ({
     },
     resolver: zodResolver(signFormSchema),
   });
-  const { navigate } = useNavigation();
   const { signIn, saveuserToState, saveUserToStorage } = useUser();
   const { isLoading, enableLoading, disableLoading } = useLoading();
 
@@ -61,8 +59,6 @@ export const SignInForm: FC<SignInFormProps> = ({
       saveuserToState(user);
 
       clearFormFields();
-
-      navigate('home');
     } catch (error: any) {
       if (error?.code) {
         const { code } = error;
