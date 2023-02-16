@@ -5,11 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { FindOneUserService } from '../../../../modules/user/services/find-one-user.service';
-import { CreateOneUserToDatabaseService } from '../../../../modules/user/services/create-one-user-to-database.service';
-import { CreateOneUserToAuthService } from '../../../../modules/user/services/create-one-user-to-auth.service';
 
 import { TextField, Button } from '../../../../common/components';
 
+import { useUser } from '../../../../common/hooks/use-user.hook';
 import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
 import type { FC } from 'react';
@@ -44,10 +43,11 @@ type SignUpFormProps = {
 };
 
 export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
-  const { isLoading, enableLoading, disableLoading } = useLoading();
   const [formStep, setFormStep] = useState<1 | 2>(1);
   const [showLinkToSignInForm, setShowLinkToSignInForm] = useState(false);
   const toast = useToast();
+  const { signUp } = useUser();
+  const { isLoading, enableLoading, disableLoading } = useLoading();
 
   const isFirstStep = formStep === 1;
   const isSecondStep = formStep === 2;
@@ -110,12 +110,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
       return;
     }
 
-    await CreateOneUserToAuthService.execute({ email, password });
-    await CreateOneUserToDatabaseService.execute({
-      firstName: first_name,
-      username,
-      email,
-    });
+    await signUp({ firstName: first_name, username, email, password });
 
     setShowLinkToSignInForm(true);
     disableLoading();

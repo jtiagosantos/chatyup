@@ -2,12 +2,13 @@ import { Link, Flex } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useNavigation } from '@react-navigation/native';
 
-import { SignInService } from '../../../../modules/user/services/sign-in.service';
 import { FindOneUserService } from '../../../../modules/user/services/find-one-user.service';
 
 import { TextField, Button } from '../../../../common/components';
 
+import { useUser } from '../../../../common/hooks/use-user.hook';
 import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
 import { EFirebaseErrors } from '../../../../infra/firebase/enums/firebase-errors.enum';
@@ -45,14 +46,23 @@ export const SignInForm: FC<SignInFormProps> = ({
     },
     resolver: zodResolver(signFormSchema),
   });
+  const { navigate } = useNavigation();
+  const { signIn, saveuserToState, saveUserToStorage } = useUser();
   const { isLoading, enableLoading, disableLoading } = useLoading();
 
   const onSubmit: SubmitHandler<SignInFormData> = async ({ email, password }) => {
     try {
       enableLoading();
-      await SignInService.execute({ email, password });
+      await signIn({ email, password });
+
       const user = await FindOneUserService.execute({ email });
+
+      await saveUserToStorage(user!);
+      saveuserToState(user);
+
       clearFormFields();
+
+      navigate('home');
     } catch (error: any) {
       if (error?.code) {
         const { code } = error;

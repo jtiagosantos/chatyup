@@ -3,10 +3,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-import { RecoveryPasswordService } from '../../../../modules/user/services/recovery-password.service';
-
 import { TextField, Button } from '../../../../common/components';
 
+import { useUser } from '../../../../common/hooks/use-user.hook';
 import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
 import { EFirebaseErrors } from '../../../../infra/firebase/enums/firebase-errors.enum';
@@ -30,6 +29,7 @@ type RecoveryPasswordFormProps = {
 export const RecoveryPasswordForm: FC<RecoveryPasswordFormProps> = ({
   onChangeToSignInForm,
 }) => {
+  const toast = useToast();
   const {
     control,
     handleSubmit,
@@ -43,14 +43,14 @@ export const RecoveryPasswordForm: FC<RecoveryPasswordFormProps> = ({
     },
     resolver: zodResolver(recoveryPasswordFormSchema),
   });
+  const { recoveryPassword } = useUser();
   const { isLoading, enableLoading, disableLoading } = useLoading();
-  const toast = useToast();
 
   const onSubmit: SubmitHandler<RecoveryPasswordFormData> = async ({ email }) => {
     try {
       enableLoading();
 
-      await RecoveryPasswordService.execute(email);
+      await recoveryPassword(email);
 
       toast.closeAll();
       toast.show({
