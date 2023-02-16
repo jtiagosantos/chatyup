@@ -46,7 +46,7 @@ const TextFieldInputComponent: ForwardRefRenderFunction<
             value={value}
             onChangeText={onChange}
             ref={ref as any}
-            type={fieldType}
+            type={!isPasswordField ? 'text' : fieldType}
             w="full"
             bgColor="gray.800"
             borderColor="transparent"
