@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
 
 import { SignInService } from '../../../modules/user/services/sign-in.service';
 import { CreateOneUserToAuthService } from '../../../modules/user/services/create-one-user-to-auth.service';
@@ -19,7 +18,6 @@ import type { SignInCredentials, SignUpCredentials } from './user.context';
 export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const { getItem, setItem, removeItem } = useStorage(EStorage.USER_INFO);
-  const { navigate } = useNavigation();
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
     await SignInService.execute({ email, password });
@@ -73,10 +71,7 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   useEffect(() => {
     getUserFromStorage().then((data) => {
       const userExists = !!Object.keys(data).length;
-      if (userExists) {
-        setUser(data);
-        navigate('home');
-      }
+      if (userExists) setUser(data);
     });
   }, []);
 
