@@ -2,6 +2,7 @@ import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firest
 import { UserMapper } from '../../../infra/firebase/mappers/user.mapper';
 import { ECollections } from '../../../infra/firebase/enums/collections.enum';
 import type { UserFromFirestore } from '../../../infra/firebase/mappers/user.mapper';
+import type { User } from '../types/user.type';
 
 type FindOneUserInput = {
   email?: string;
@@ -35,7 +36,7 @@ export class FindOneUserService {
     const user = {
       ...formattedUser,
       id: userId,
-    };
+    } as User;
 
     return user;
   }
