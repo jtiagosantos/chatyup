@@ -8,7 +8,10 @@ import {
 } from '@expo-google-fonts/poppins';
 import { NativeBaseProvider } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
+
 import { UserProvider } from './src/common/contexts/user/user.provider';
+import { SplashProvider } from './src/common/contexts/splash/splash.provider';
+
 import { AppRoutes } from './src/common/routes/app.routes';
 
 const App = () => {
@@ -22,12 +25,14 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <UserProvider>
-        <NativeBaseProvider>
-          <StatusBar backgroundColor="#18181B" translucent={false} style="light" />
-          <AppRoutes />
-        </NativeBaseProvider>
-      </UserProvider>
+      <SplashProvider>
+        <UserProvider>
+          <NativeBaseProvider>
+            <StatusBar backgroundColor="#18181B" translucent={false} style="light" />
+            <AppRoutes />
+          </NativeBaseProvider>
+        </UserProvider>
+      </SplashProvider>
     </NavigationContainer>
   );
 };
