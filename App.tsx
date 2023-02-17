@@ -5,6 +5,7 @@ import {
   Poppins_300Light,
   Poppins_400Regular,
   Poppins_500Medium,
+  Poppins_800ExtraBold,
 } from '@expo-google-fonts/poppins';
 import { NativeBaseProvider } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,6 +20,7 @@ const App = () => {
     Poppins_300Light,
     Poppins_400Regular,
     Poppins_500Medium,
+    Poppins_800ExtraBold,
   });
 
   if (!fontsLoaded) return null;
