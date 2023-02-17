@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { ChatRoomScreen } from '../chat-room/chat-room.screen';
 
-import ChatRoomIcon from '../../../common/assets/chat-room.svg';
+import ChatRoomTabIcon from '../../../common/assets/chat-room-tab.svg';
 
 import type { RoutesList } from '../../../common/types/routes-list.type';
 
@@ -33,7 +33,7 @@ export const HomeScreen = () => {
         component={ChatRoomScreen}
         options={{
           tabBarLabel: 'Sala de conversa',
-          tabBarIcon: ({ color }) => <ChatRoomIcon stroke={color} />,
+          tabBarIcon: ({ color }) => <ChatRoomTabIcon stroke={color} />,
         }}
       />
     </Tab.Navigator>
