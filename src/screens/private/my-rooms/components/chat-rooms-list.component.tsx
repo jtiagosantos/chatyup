@@ -1,8 +1,10 @@
 import { FlatList } from 'react-native';
-import { Flex, Text, Box, Button, useTheme } from 'native-base';
+import { Flex, Text, Box, Button, useTheme, useToast } from 'native-base';
 import { CopySimple } from 'phosphor-react-native';
 
 import { useDimensions } from '../../../../common/hooks/use-dimensions.hook';
+
+import { copyToClipboard } from '../../../../common/utils/copy-to-clipboard.util';
 
 import type { FC } from 'react';
 import type { ChatRoom } from '../../../../modules/chat_room/types/chat-room.type';
@@ -13,7 +15,19 @@ type ChatRoomsListProps = {
 
 export const ChatRoomsList: FC<ChatRoomsListProps> = ({ chatRooms }) => {
   const { colors } = useTheme();
+  const toast = useToast();
   const { width } = useDimensions();
+
+  const handleCopyChatRoomCodeToClipboard = async (code: string) => {
+    await copyToClipboard(code);
+
+    toast.closeAll();
+    toast.show({
+      title: 'Código copiado com sucesso',
+      bgColor: 'success.900',
+      mb: -5,
+    });
+  };
 
   return (
     <Flex flex={1} align="center" mt="32px">
@@ -44,7 +58,8 @@ export const ChatRoomsList: FC<ChatRoomsListProps> = ({ chatRooms }) => {
               borderBottomLeftRadius="0"
               _pressed={{
                 opacity: 0.6,
-              }}>
+              }}
+              onPress={() => handleCopyChatRoomCodeToClipboard(code)}>
               <CopySimple size={22} color={colors.white} />
             </Button>
           </Flex>
