@@ -1,8 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { ChatRoomScreen } from '../chat-room/chat-room.screen';
+import { MyRoomsScreen } from '../my-rooms/my-rooms.screen';
 
 import ChatRoomTabIcon from '../../../common/assets/chat-room-tab.svg';
+import MyRoomsTabIcon from '../../../common/assets/my-rooms-tab.svg';
 
 import type { RoutesList } from '../../../common/types/routes-list.type';
 
@@ -34,6 +36,14 @@ export const HomeScreen = () => {
         options={{
           tabBarLabel: 'Sala de conversa',
           tabBarIcon: ({ color }) => <ChatRoomTabIcon stroke={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="myRooms"
+        component={MyRoomsScreen}
+        options={{
+          tabBarLabel: 'Minhas salas',
+          tabBarIcon: ({ color }) => <MyRoomsTabIcon stroke={color} />,
         }}
       />
     </Tab.Navigator>
