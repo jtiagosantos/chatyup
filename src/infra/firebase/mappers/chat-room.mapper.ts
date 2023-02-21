@@ -30,7 +30,7 @@ export class ChatRoomMapper {
       id: chatRoom.id,
       name: chatRoom.name,
       code: chatRoom.code,
-      createdAt: chatRoom.created_at.toDate(),
+      createdAt: chatRoom.created_at.toDate().toISOString(),
     };
   }
 }
