@@ -1,8 +1,15 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import type { ChatRoom } from '../../../modules/chat_room/types/chat-room.type';
 
 type ChatRoomToFirestore = Pick<ChatRoom, 'name' | 'code'> & {
   userId: string;
+};
+
+export type ChatRoomFromFirestore = {
+  id: string;
+  name: string;
+  code: string;
+  created_at: FirebaseFirestoreTypes.Timestamp;
 };
 
 export class ChatRoomMapper {
@@ -15,6 +22,15 @@ export class ChatRoomMapper {
       code: chatRoom.code,
       created_at: dateNow,
       updated_at: dateNow,
+    };
+  }
+
+  public static toDomain(chatRoom: ChatRoomFromFirestore): ChatRoom {
+    return {
+      id: chatRoom.id,
+      name: chatRoom.name,
+      code: chatRoom.code,
+      createdAt: chatRoom.created_at.toDate(),
     };
   }
 }
