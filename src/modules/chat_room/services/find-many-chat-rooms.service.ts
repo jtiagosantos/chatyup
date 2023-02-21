@@ -17,6 +17,7 @@ export class FindManyChatRoomsService {
       response = await firestore()
         .collection(ECollections.CHAT_ROOMS)
         .where('user_id', '==', userId)
+        .where('deleted_at', '==', null)
         .orderBy('created_at', 'desc')
         .get();
     }

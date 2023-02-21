@@ -22,6 +22,7 @@ export class ChatRoomMapper {
       code: chatRoom.code,
       created_at: dateNow,
       updated_at: dateNow,
+      deleted_at: null,
     };
   }
 
