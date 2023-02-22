@@ -1,16 +1,16 @@
 import { Box, Flex, Text, Button, useTheme, useToast } from 'native-base';
 import { CopySimple } from 'phosphor-react-native';
 
-import { copyToClipboard } from '../../../../common/utils/copy-to-clipboard.util';
+import { copyToClipboard } from '../utils/copy-to-clipboard.util';
 
 import type { FC, PropsWithChildren } from 'react';
 import type { IBoxProps, ITextProps } from 'native-base';
 
-const ChatRoomInfoRoot: FC<IBoxProps> = ({ children, ...props }) => {
+const OutputRoot: FC<IBoxProps> = ({ children, ...props }) => {
   return <Box {...props}>{children}</Box>;
 };
 
-const ChatRoomInfoLabel: FC<ITextProps> = ({ children, ...props }) => {
+const OutputLabel: FC<ITextProps> = ({ children, ...props }) => {
   return (
     <Text color="gray.400" fontSize="14px" mb="6px" {...props}>
       {children}
@@ -18,20 +18,20 @@ const ChatRoomInfoLabel: FC<ITextProps> = ({ children, ...props }) => {
   );
 };
 
-type ChatRoomInfoValueProps = {
+type OutputValueProps = {
   enableCopy?: boolean;
 };
 
-const ChatRoomInfoValue: FC<PropsWithChildren<ChatRoomInfoValueProps>> = ({
+const OutputValue: FC<PropsWithChildren<OutputValueProps>> = ({
   children,
   enableCopy = false,
 }) => {
   const { colors } = useTheme();
   const toast = useToast();
 
-  const handleCopyChatRoomCodeToClipboard = async () => {
-    const code = children as string;
-    await copyToClipboard(code);
+  const handleCopyTextToClipboard = async () => {
+    const text = children as string;
+    await copyToClipboard(text);
 
     toast.closeAll();
     toast.show({
@@ -63,7 +63,7 @@ const ChatRoomInfoValue: FC<PropsWithChildren<ChatRoomInfoValueProps>> = ({
           _pressed={{
             opacity: 0.6,
           }}
-          onPress={handleCopyChatRoomCodeToClipboard}>
+          onPress={handleCopyTextToClipboard}>
           <CopySimple size={22} color={colors.white} />
         </Button>
       )}
@@ -71,8 +71,8 @@ const ChatRoomInfoValue: FC<PropsWithChildren<ChatRoomInfoValueProps>> = ({
   );
 };
 
-export const ChatRoomInfo = {
-  Root: ChatRoomInfoRoot,
-  Label: ChatRoomInfoLabel,
-  Value: ChatRoomInfoValue,
+export const Output = {
+  Root: OutputRoot,
+  Label: OutputLabel,
+  Value: OutputValue,
 };

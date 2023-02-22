@@ -3,8 +3,7 @@ import { Box, Flex, Modal, useDisclose, Text } from 'native-base';
 
 import { SoftDeleteOneChatRoomService } from '../../../../modules/chat_room/services/soft-delete-one-chat-room.service';
 
-import { Header, Button } from '../../../../common/components';
-import { ChatRoomInfo } from '../components/chat-room-info.component';
+import { Header, Button, Output } from '../../../../common/components';
 
 import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
@@ -46,18 +45,18 @@ export const ChatRoomInfoScreen: FC<ScreenProps<'chatRoomInfo'>> = ({
       <Box flex={1} bgColor="gray.900">
         <Header title="Informações da sala" />
         <Flex flex={1} p="24px">
-          <ChatRoomInfo.Root>
-            <ChatRoomInfo.Label>Nome</ChatRoomInfo.Label>
-            <ChatRoomInfo.Value>{chatRoom.name}</ChatRoomInfo.Value>
-          </ChatRoomInfo.Root>
-          <ChatRoomInfo.Root mt="16px">
-            <ChatRoomInfo.Label>Código</ChatRoomInfo.Label>
-            <ChatRoomInfo.Value enableCopy>{chatRoom.code}</ChatRoomInfo.Value>
-          </ChatRoomInfo.Root>
-          <ChatRoomInfo.Root mt="16px">
-            <ChatRoomInfo.Label>Data de criação</ChatRoomInfo.Label>
-            <ChatRoomInfo.Value>{formattedDate}</ChatRoomInfo.Value>
-          </ChatRoomInfo.Root>
+          <Output.Root>
+            <Output.Label>Nome</Output.Label>
+            <Output.Value>{chatRoom.name}</Output.Value>
+          </Output.Root>
+          <Output.Root mt="16px">
+            <Output.Label>Código</Output.Label>
+            <Output.Value enableCopy>{chatRoom.code}</Output.Value>
+          </Output.Root>
+          <Output.Root mt="16px">
+            <Output.Label>Data de criação</Output.Label>
+            <Output.Value>{formattedDate}</Output.Value>
+          </Output.Root>
           <Button mt="24px" onPress={onOpen}>
             Deletar sala
           </Button>
