@@ -6,6 +6,7 @@ import { SplashScreen } from '../../screens/public/splash/splash.screen';
 
 //private
 import { HomeScreen } from '../../screens/private/home/home.screen';
+import { ChatRoomInfoScreen } from '../../screens/private/my-rooms/stack/chat-room-info.screen';
 
 import { useUser } from '../hooks/use-user.hook';
 import { useSplash } from '../hooks/use-splash.hook';
@@ -26,7 +27,10 @@ export const AppRoutes = () => {
         (!user ? (
           <Stack.Screen name="auth" component={AuthScreen} />
         ) : (
-          <Stack.Screen name="home" component={HomeScreen} />
+          <>
+            <Stack.Screen name="home" component={HomeScreen} />
+            <Stack.Screen name="chatRoomInfo" component={ChatRoomInfoScreen} />
+          </>
         ))}
     </Stack.Navigator>
   );

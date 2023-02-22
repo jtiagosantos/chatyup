@@ -1,31 +1,30 @@
 import { FlatList } from 'react-native';
-import { Flex, Text, Box, Button, useTheme, useToast } from 'native-base';
-import { CopySimple } from 'phosphor-react-native';
+import { Flex, Text, Box, Button, useTheme } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
+import { Info } from 'phosphor-react-native';
 
 import { useDimensions } from '../../../../common/hooks/use-dimensions.hook';
-
-import { copyToClipboard } from '../../../../common/utils/copy-to-clipboard.util';
 
 import type { FC } from 'react';
 import type { ChatRoom } from '../../../../modules/chat_room/types/chat-room.type';
 
 type ChatRoomsListProps = {
   chatRooms: ChatRoom[];
+  onUpdateChatRooms: () => Promise<void>;
 };
 
-export const ChatRoomsList: FC<ChatRoomsListProps> = ({ chatRooms }) => {
+export const ChatRoomsList: FC<ChatRoomsListProps> = ({
+  chatRooms,
+  onUpdateChatRooms,
+}) => {
   const { colors } = useTheme();
-  const toast = useToast();
+  const { navigate } = useNavigation();
   const { width } = useDimensions();
 
-  const handleCopyChatRoomCodeToClipboard = async (code: string) => {
-    await copyToClipboard(code);
-
-    toast.closeAll();
-    toast.show({
-      title: 'Código copiado com sucesso',
-      bgColor: 'success.900',
-      mb: -5,
+  const handleNavigationToChatRoomInfoScreen = (chatRoom: ChatRoom) => {
+    navigate('chatRoomInfo', {
+      chatRoom,
+      onUpdateChatRooms,
     });
   };
 
@@ -34,13 +33,13 @@ export const ChatRoomsList: FC<ChatRoomsListProps> = ({ chatRooms }) => {
       <FlatList<ChatRoom>
         data={chatRooms}
         keyExtractor={(item) => item.id}
-        renderItem={({ item: { name, code } }) => (
+        renderItem={({ item }) => (
           <Flex
             flexDir="row"
             align="center"
             justify="space-between"
             h="40px"
-            bgColor="gray.800"
+            bgColor="gray.700"
             borderRadius="5px"
             pl="12px">
             <Text
@@ -48,7 +47,7 @@ export const ChatRoomsList: FC<ChatRoomsListProps> = ({ chatRooms }) => {
               color="gray.400"
               fontSize="14px"
               numberOfLines={1}>
-              {name}
+              {item.name}
             </Text>
             <Button
               w="44px"
@@ -59,8 +58,8 @@ export const ChatRoomsList: FC<ChatRoomsListProps> = ({ chatRooms }) => {
               _pressed={{
                 opacity: 0.6,
               }}
-              onPress={() => handleCopyChatRoomCodeToClipboard(code)}>
-              <CopySimple size={22} color={colors.white} />
+              onPress={() => handleNavigationToChatRoomInfoScreen(item)}>
+              <Info size={22} color={colors.white} />
             </Button>
           </Flex>
         )}

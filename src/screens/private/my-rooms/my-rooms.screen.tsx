@@ -66,6 +66,8 @@ export const MyRoomsScreen = () => {
   };
 
   const updateChatRoomsState = async () => {
+    setChatRooms([]);
+
     fetchChatRoomsLoadingState.enableLoading();
 
     const data = await fetchChatRooms();
@@ -118,10 +120,17 @@ export const MyRoomsScreen = () => {
             )}
           </Flex>
         )}
-        {userHasSomeChatRoom && <ChatRoomsList chatRooms={chatRooms} />}
+        {userHasSomeChatRoom && (
+          <ChatRoomsList chatRooms={chatRooms} onUpdateChatRooms={updateChatRoomsState} />
+        )}
       </Box>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        _overlay={{
+          animationPreset: 'slide',
+        }}>
         <Modal.Content bgColor="gray.900">
           <Modal.Body>
             <TextField.Root isInvalid={!!errors.room_name}>
