@@ -9,7 +9,7 @@ type UserContextData = {
   signUp: (credentials: SignUpCredentials) => Promise<void>;
   recoveryPassword: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
-  saveuserToState: (user: User | null) => void;
+  saveUserToState: (user: User | null) => void;
   saveUserToStorage: (user: Partial<User>) => Promise<void>;
 };
 

@@ -50,7 +50,7 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
     await removeItem();
   }, []);
 
-  const saveuserToState = useCallback((user: User | null) => {
+  const saveUserToState = useCallback((user: User | null) => {
     setUser(user);
   }, []);
 
@@ -85,7 +85,7 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
         signUp,
         recoveryPassword,
         signOut,
-        saveuserToState,
+        saveUserToState,
         saveUserToStorage,
       }}>
       {children}
