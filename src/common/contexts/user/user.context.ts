@@ -10,6 +10,7 @@ type UserContextData = {
   recoveryPassword: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
   saveUserToState: (user: User | null) => void;
+  updateUserFromState: (updatedUser: Partial<User>) => void;
   saveUserToStorage: (user: Partial<User>) => Promise<void>;
 };
 

@@ -50,10 +50,6 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
     await removeItem();
   }, []);
 
-  const saveUserToState = useCallback((user: User | null) => {
-    setUser(user);
-  }, []);
-
   const saveUserToStorage = useCallback(async (user: Partial<User>) => {
     const storedUser = await getUserFromStorage();
     const dataToStore = {
@@ -69,6 +65,17 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
 
     return storedUser || {};
   }, []);
+
+  const saveUserToState = useCallback((user: User | null) => {
+    setUser(user);
+  }, []);
+
+  const updateUserFromState = useCallback(
+    (updatedUser: Partial<User>) => {
+      setUser({ ...user!, ...updatedUser });
+    },
+    [user],
+  );
 
   useEffect(() => {
     getUserFromStorage().then((data) => {
@@ -86,6 +93,7 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
         recoveryPassword,
         signOut,
         saveUserToState,
+        updateUserFromState,
         saveUserToStorage,
       }}>
       {children}
