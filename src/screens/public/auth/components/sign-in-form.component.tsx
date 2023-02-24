@@ -45,7 +45,7 @@ export const SignInForm: FC<SignInFormProps> = ({
     },
     resolver: zodResolver(signFormSchema),
   });
-  const { signIn, saveuserToState, saveUserToStorage } = useUser();
+  const { signIn, saveUserToState, saveUserToStorage } = useUser();
   const { isLoading, enableLoading, disableLoading } = useLoading();
 
   const onSubmit: SubmitHandler<SignInFormData> = async ({ email, password }) => {
@@ -56,7 +56,7 @@ export const SignInForm: FC<SignInFormProps> = ({
       const user = await FindOneUserService.execute({ email });
 
       await saveUserToStorage(user!);
-      saveuserToState(user);
+      saveUserToState(user);
 
       clearFormFields();
     } catch (error: any) {
