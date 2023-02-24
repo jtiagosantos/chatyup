@@ -4,6 +4,7 @@ import { SignInService } from '../../../modules/user/services/sign-in.service';
 import { CreateOneUserToAuthService } from '../../../modules/user/services/create-one-user-to-auth.service';
 import { CreateOneUserToDatabaseService } from '../../../modules/user/services/create-one-user-to-database.service';
 import { RecoveryPasswordService } from '../../../modules/user/services/recovery-password.service';
+import { SignOutService } from '../../../modules/user/services/sign-out.service';
 
 import { UserContext } from './user.context';
 
@@ -40,6 +41,7 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   }, []);
 
   const signOut = useCallback(async () => {
+    await SignOutService.execute();
     await removeUserFromStorage();
     setUser(null);
   }, []);
