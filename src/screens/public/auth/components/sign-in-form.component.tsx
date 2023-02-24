@@ -55,8 +55,8 @@ export const SignInForm: FC<SignInFormProps> = ({
 
       const user = await FindOneUserService.execute({ email });
 
-      await saveUserToStorage(user!);
-      saveUserToState(user);
+      await saveUserToStorage({ ...user, password });
+      saveUserToState({ ...user!, password });
 
       clearFormFields();
     } catch (error: any) {

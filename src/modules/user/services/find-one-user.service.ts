@@ -36,7 +36,7 @@ export class FindOneUserService {
     const user = {
       ...formattedUser,
       id: userId,
-    } as User;
+    } as Omit<User, 'password'>;
 
     return user;
   }
