@@ -10,4 +10,6 @@ export type RoutesList = {
     chatRoom: ChatRoom;
     onUpdateChatRooms: () => Promise<void>;
   };
+  myProfile: undefined;
+  editProfile: undefined;
 };

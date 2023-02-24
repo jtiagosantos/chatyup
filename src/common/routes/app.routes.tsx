@@ -7,6 +7,7 @@ import { SplashScreen } from '../../screens/public/splash/splash.screen';
 //private
 import { HomeScreen } from '../../screens/private/home/home.screen';
 import { ChatRoomInfoScreen } from '../../screens/private/my-rooms/stack/chat-room-info.screen';
+import { EditProfileScreen } from '../../screens/private/my-profile/stack/edit-profile.screen';
 
 import { useUser } from '../hooks/use-user.hook';
 import { useSplash } from '../hooks/use-splash.hook';
@@ -30,6 +31,7 @@ export const AppRoutes = () => {
           <>
             <Stack.Screen name="home" component={HomeScreen} />
             <Stack.Screen name="chatRoomInfo" component={ChatRoomInfoScreen} />
+            <Stack.Screen name="editProfile" component={EditProfileScreen} />
           </>
         ))}
     </Stack.Navigator>

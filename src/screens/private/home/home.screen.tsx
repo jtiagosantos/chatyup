@@ -2,9 +2,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { ChatRoomScreen } from '../chat-room/chat-room.screen';
 import { MyRoomsScreen } from '../my-rooms/my-rooms.screen';
+import { MyProfileScreen } from '../my-profile/my-profile.screen';
 
 import ChatRoomTabIcon from '../../../common/assets/chat-room-tab.svg';
 import MyRoomsTabIcon from '../../../common/assets/my-rooms-tab.svg';
+import MyProfileTabIcon from '../../../common/assets/my-profile-tab.svg';
 
 import type { RoutesList } from '../../../common/types/routes-list.type';
 
@@ -44,6 +46,14 @@ export const HomeScreen = () => {
         options={{
           tabBarLabel: 'Minhas salas',
           tabBarIcon: ({ color }) => <MyRoomsTabIcon stroke={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="myProfile"
+        component={MyProfileScreen}
+        options={{
+          tabBarLabel: 'Meu perfil',
+          tabBarIcon: ({ color }) => <MyProfileTabIcon stroke={color} />,
         }}
       />
     </Tab.Navigator>
