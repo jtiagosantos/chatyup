@@ -1,10 +1,11 @@
-import { forwardRef, ForwardRefRenderFunction } from 'react';
-import { TextInput } from 'react-native';
-import { Text, Input, FormControl } from 'native-base';
+import { forwardRef, ForwardRefRenderFunction, useReducer } from 'react';
+import { TextInput, TouchableOpacity } from 'react-native';
+import { Text, Input, FormControl, Box } from 'native-base';
+import { Eye, EyeSlash } from 'phosphor-react-native';
 import { Controller } from 'react-hook-form';
 
 import type { FC, PropsWithChildren } from 'react';
-import type { IFormControlProps, ITextProps, IInputProps } from 'native-base';
+import type { IFormControlProps, ITextProps, IInputProps, Theme } from 'native-base';
 import type { Control } from 'react-hook-form';
 
 const TextFieldRoot: FC<IFormControlProps> = ({ children, ...props }) => {
@@ -29,31 +30,52 @@ type TextFieldInputProps = IInputProps & {
 const TextFieldInputComponent: ForwardRefRenderFunction<
   typeof TextInput,
   TextFieldInputProps
-> = ({ control, name, ...props }, ref) => {
+> = ({ control, name, type, ...props }, ref) => {
+  const [isPasswordVisible, togglePasswordVisible] = useReducer((state) => !state, false);
+
+  const isPasswordField = type === 'password';
+  const fieldType = isPasswordVisible ? 'text' : 'password';
+
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange } }) => (
-        <Input
-          value={value}
-          onChangeText={onChange}
-          ref={ref as any}
-          bgColor="gray.800"
-          borderColor="transparent"
-          fontSize="16px"
-          color="white"
-          borderWidth="2px"
-          borderRadius="5px"
-          _focus={{
-            borderColor: 'violet.800',
-          }}
-          _invalid={{
-            borderColor: 'red.500',
-          }}
-          placeholderTextColor="gray.500"
-          {...props}
-        />
+        <Box w="full" position="relative">
+          <Input
+            value={value}
+            onChangeText={onChange}
+            ref={ref as any}
+            type={!isPasswordField ? 'text' : fieldType}
+            w="full"
+            bgColor="gray.800"
+            borderColor="transparent"
+            fontSize="16px"
+            color="white"
+            borderWidth="2px"
+            borderRadius="5px"
+            pr={isPasswordField ? '50px' : '12px'}
+            _focus={{
+              borderColor: 'violet.800',
+            }}
+            _invalid={{
+              borderColor: 'red.500',
+            }}
+            placeholderTextColor="gray.500"
+            {...props}
+          />
+          {isPasswordField && (
+            <Box position="absolute" right="16px" top="25%">
+              <TouchableOpacity activeOpacity={0.6} onPress={togglePasswordVisible}>
+                {isPasswordVisible ? (
+                  <EyeSlash size={22} color="#a1a1aa" />
+                ) : (
+                  <Eye size={22} color="#a1a1aa" />
+                )}
+              </TouchableOpacity>
+            </Box>
+          )}
+        </Box>
       )}
     />
   );

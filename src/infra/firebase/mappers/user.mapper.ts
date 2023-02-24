@@ -1,4 +1,4 @@
-import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import type { User } from '../../../modules/user/types/user.type';
 
 export type UserToFirestore = Pick<User, 'firstName' | 'username' | 'email'>;
@@ -8,8 +8,6 @@ export type UserFromFirestore = {
   first_name: string;
   username: string;
   email: string;
-  created_at: FirebaseFirestoreTypes.Timestamp;
-  updated_at: FirebaseFirestoreTypes.Timestamp;
 };
 
 export class UserMapper {
@@ -31,8 +29,6 @@ export class UserMapper {
       firstName: user.first_name,
       username: user.username,
       email: user.email,
-      createdAt: user.created_at.toDate(),
-      updatedAt: user.updated_at.toDate(),
     };
   }
 }

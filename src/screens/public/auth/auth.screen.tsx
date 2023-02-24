@@ -7,9 +7,9 @@ import { SignInForm } from './components/sign-in-form.component';
 import { SignUpForm } from './components/sign-up-form.component';
 import { RecoveryPasswordForm } from './components/recovery-password-form.component';
 
-import { useDimensions } from '../../common/hooks/use-dimensions.hook';
+import { useDimensions } from '../../../common/hooks/use-dimensions.hook';
 
-import Logo from '../../common/assets/logo.svg';
+import LogoImage from '../../../common/assets/logo.svg';
 
 type SelectedForm = 'signIn' | 'signUp' | 'recoveryPassword';
 
@@ -88,8 +88,8 @@ export const AuthScreen = () => {
   return (
     <Box h={`${height}px`} flex={1} p="24px" pt="32px" pb={0} bgColor="gray.900">
       <Box maxW="250px">
-        <Logo />
-        <Text color="gray.400" fontSize="16px" fontWeight="light">
+        <LogoImage />
+        <Text color="gray.500" fontSize="16px">
           Converse com os seus amigos de forma simples e rápida
         </Text>
       </Box>

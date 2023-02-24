@@ -3,14 +3,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-import { SignInService } from '../../../modules/user/services/sign-in.service';
-import { FindOneUserService } from '../../../modules/user/services/find-one-user.service';
+import { FindOneUserService } from '../../../../modules/user/services/find-one-user.service';
 
-import { TextField, Button } from '../../../common/components';
+import { TextField, Button } from '../../../../common/components';
 
-import { useLoading } from '../../../common/hooks/use-loding.hook';
+import { useUser } from '../../../../common/hooks/use-user.hook';
+import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
-import { EFirebaseErrors } from '../../../infra/firebase/enums/firebase-errors.enum';
+import { EFirebaseErrors } from '../../../../infra/firebase/enums/firebase-errors.enum';
 
 import type { FC } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -45,15 +45,20 @@ export const SignInForm: FC<SignInFormProps> = ({
     },
     resolver: zodResolver(signFormSchema),
   });
+  const { signIn, saveUserToState, saveUserToStorage } = useUser();
   const { isLoading, enableLoading, disableLoading } = useLoading();
 
   const onSubmit: SubmitHandler<SignInFormData> = async ({ email, password }) => {
     try {
       enableLoading();
-      await SignInService.execute({ email, password });
+      await signIn({ email, password });
+
       const user = await FindOneUserService.execute({ email });
+
+      await saveUserToStorage({ ...user, password });
+      saveUserToState({ ...user!, password });
+
       clearFormFields();
-      console.log(user);
     } catch (error: any) {
       if (error?.code) {
         const { code } = error;
@@ -105,6 +110,7 @@ export const SignInForm: FC<SignInFormProps> = ({
         <TextField.Input
           control={control}
           name="password"
+          type="password"
           placeholder="Digite sua senha"
         />
         {!!errors.password && (
