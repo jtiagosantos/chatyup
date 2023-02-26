@@ -110,7 +110,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
       return;
     }
 
-    await signUp({ firstName: first_name, username, email, password });
+    await signUp({ firstName: first_name, username, email, password, avatarURL: '' });
 
     setShowLinkToSignInForm(true);
     disableLoading();

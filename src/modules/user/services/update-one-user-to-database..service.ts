@@ -8,7 +8,8 @@ export class UpdateOneUserToDatabaseService {
     firstName,
     username,
     email,
-  }: Omit<User, 'password'>) {
+    avatarURL,
+  }: Partial<Omit<User, 'password'>>) {
     let dataToUpdate = {};
     if (firstName) {
       dataToUpdate = { ...dataToUpdate, first_name: firstName };
@@ -18,6 +19,9 @@ export class UpdateOneUserToDatabaseService {
     }
     if (email) {
       dataToUpdate = { ...dataToUpdate, email };
+    }
+    if (avatarURL) {
+      dataToUpdate = { ...dataToUpdate, avatar_url: avatarURL };
     }
     const dateNow = firestore.Timestamp.now();
     dataToUpdate = { ...dataToUpdate, updated_at: dateNow };
