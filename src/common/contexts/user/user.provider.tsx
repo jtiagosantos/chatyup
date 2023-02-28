@@ -25,12 +25,13 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   }, []);
 
   const signUp = useCallback(
-    async ({ firstName, username, email, password }: SignUpCredentials) => {
+    async ({ firstName, username, email, password, avatarURL }: SignUpCredentials) => {
       await CreateOneUserToAuthService.execute({ email, password });
       await CreateOneUserToDatabaseService.execute({
         firstName,
         username,
         email,
+        avatarURL,
       });
     },
     [],

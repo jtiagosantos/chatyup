@@ -3,7 +3,7 @@ import { UserMapper } from '../../../infra/firebase/mappers/user.mapper';
 import { ECollections } from '../../../infra/firebase/enums/collections.enum';
 import type { User } from '../types/user.type';
 
-type CreateOneUserToDatabaseInput = Pick<User, 'firstName' | 'username' | 'email'>;
+type CreateOneUserToDatabaseInput = Omit<User, 'id' | 'password'>;
 
 export class CreateOneUserToDatabaseService {
   public static async execute(input: CreateOneUserToDatabaseInput) {
