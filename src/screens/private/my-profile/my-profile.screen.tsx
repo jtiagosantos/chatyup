@@ -1,14 +1,11 @@
-import { Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Box, Text, Flex, Button as NBButton, useDisclose } from 'native-base';
-import { NotePencil } from 'phosphor-react-native';
+import { Box, Text, Flex, useDisclose } from 'native-base';
 
 import { Button, Output } from '../../../common/components';
 import { EditAvatar } from './components/edit-avatar.component';
+import { Avatar } from './components/avatar.component';
 
 import { useUser } from '../../../common/hooks/use-user.hook';
-
-import UserProfileImage from '../../../common/assets/user-profile.svg';
 
 export const MyProfileScreen = () => {
   const { navigate } = useNavigation();
@@ -30,49 +27,10 @@ export const MyProfileScreen = () => {
             Editar perfil
           </Button>
         </Flex>
-        <Flex
-          align="center"
-          justify="center"
-          borderWidth="2px"
-          borderColor="violet.800"
-          w="110px"
-          h="110px"
-          mx="auto"
-          mt="32px"
-          borderRadius="55px">
-          <Flex
-            align="center"
-            justify="center"
-            w="100px"
-            h="100px"
-            bgColor="gray.700"
-            borderRadius="50px">
-            <NBButton
-              p={0}
-              w="26px"
-              h="26px"
-              bgColor="violet.800"
-              borderRadius="5px"
-              position="absolute"
-              top={0}
-              right={0}
-              zIndex={3}
-              _pressed={{
-                opacity: 0.6,
-              }}
-              onPress={onOpen}>
-              <NotePencil size={20} color="#fafafa" />
-            </NBButton>
-            {user?.avatarURL ? (
-              <Image
-                source={{ uri: user.avatarURL }}
-                style={{ width: '100%', height: '100%', borderRadius: 50 }}
-              />
-            ) : (
-              <UserProfileImage />
-            )}
-          </Flex>
-        </Flex>
+        <Avatar.Root w="110px" h="110px" mx="auto" mt="32px">
+          <Avatar.EditButton onPress={onOpen} />
+          <Avatar.Image uri={user?.avatarURL ?? ''} />
+        </Avatar.Root>
         <Box mt="24px" mb="16px">
           <Output.Root>
             <Output.Label>Primeiro nome</Output.Label>

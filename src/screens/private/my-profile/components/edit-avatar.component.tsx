@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { Image } from 'react-native';
-import { Modal, Flex, Text, useToast } from 'native-base';
+import { Modal, Text, useToast } from 'native-base';
 import { Controller, useForm } from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
 
 import { UpdateOneUserToDatabaseService } from '../../../../modules/user/services/update-one-user-to-database..service';
 
 import { Button } from '../../../../common/components';
+import { Avatar } from './avatar.component';
 
 import { getFileInfo } from '../../../../common/utils/get-file-info.util';
 import { validateFileSize } from '../../../../common/utils/validate-file-size.util';
@@ -14,8 +14,6 @@ import { getFileExtension } from '../../../../common/utils/get-file-extension.ut
 
 import { useUser } from '../../../../common/hooks/use-user.hook';
 import { useLoading } from '../../../../common/hooks/use-loding.hook';
-
-import UserProfileImage from '../../../../common/assets/user-profile.svg';
 
 import type { FC } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -140,33 +138,9 @@ export const EditAvatar: FC<EditAvatarProps> = ({ isOpen, onClose }) => {
             control={control}
             name="avatar_url"
             render={({ field: { value } }) => (
-              <Flex
-                align="center"
-                justify="center"
-                borderWidth="2px"
-                borderColor="violet.800"
-                w="110px"
-                h="110px"
-                mx="auto"
-                borderRadius="55px">
-                <Flex
-                  align="center"
-                  justify="center"
-                  w="100px"
-                  h="100px"
-                  bgColor="gray.700"
-                  borderRadius="50px"
-                  position="relative">
-                  {value ? (
-                    <Image
-                      source={{ uri: value }}
-                      style={{ width: '100%', height: '100%', borderRadius: 50 }}
-                    />
-                  ) : (
-                    <UserProfileImage />
-                  )}
-                </Flex>
-              </Flex>
+              <Avatar.Root w="110px" h="110px" mx="auto" mt="32px">
+                <Avatar.Image uri={value} />
+              </Avatar.Root>
             )}
           />
           {errors.avatar_url?.message && (
