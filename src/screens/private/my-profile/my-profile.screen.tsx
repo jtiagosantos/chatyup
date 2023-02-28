@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Box, Text, Flex, useDisclose } from 'native-base';
 
 import { Button, Output } from '../../../common/components';
-import { EditAvatar } from './components/edit-avatar.component';
+import { EditAvatarModal } from './components/edit-avatar-modal.component';
 import { Avatar } from './components/avatar.component';
 
 import { useUser } from '../../../common/hooks/use-user.hook';
@@ -50,7 +50,7 @@ export const MyProfileScreen = () => {
         </Button>
       </Box>
 
-      {isOpen && <EditAvatar isOpen={isOpen} onClose={onClose} />}
+      {isOpen && <EditAvatarModal isOpen={isOpen} onClose={onClose} />}
     </>
   );
 };

@@ -31,7 +31,7 @@ type EditAvatarProps = {
   onClose: () => void;
 };
 
-export const EditAvatar: FC<EditAvatarProps> = ({ isOpen, onClose }) => {
+export const EditAvatarModal: FC<EditAvatarProps> = ({ isOpen, onClose }) => {
   const { user, updateUserFromState, saveUserToStorage } = useUser();
   const { isLoading, enableLoading, disableLoading } = useLoading();
   const {
