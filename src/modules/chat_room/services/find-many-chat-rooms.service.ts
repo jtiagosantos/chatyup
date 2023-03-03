@@ -22,9 +22,9 @@ export class FindManyChatRoomsService {
         .get();
     }
 
-    const chatRoomsExist = !response!.empty;
+    const chatRoomsExists = !response!.empty;
 
-    if (!chatRoomsExist) return [];
+    if (!chatRoomsExists) return [];
 
     const chatRooms: ChatRoom[] = [];
 
