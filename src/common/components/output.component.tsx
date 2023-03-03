@@ -20,11 +20,13 @@ const OutputLabel: FC<ITextProps> = ({ children, ...props }) => {
 
 type OutputValueProps = {
   enableCopy?: boolean;
+  successTextWhenCopying?: string;
 };
 
 const OutputValue: FC<PropsWithChildren<OutputValueProps>> = ({
   children,
   enableCopy = false,
+  successTextWhenCopying = '',
 }) => {
   const { colors } = useTheme();
   const toast = useToast();
@@ -35,7 +37,7 @@ const OutputValue: FC<PropsWithChildren<OutputValueProps>> = ({
 
     toast.closeAll();
     toast.show({
-      title: 'Código copiado com sucesso',
+      title: successTextWhenCopying,
       bgColor: 'success.900',
       duration: 2000,
       mb: -5,

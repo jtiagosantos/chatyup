@@ -51,7 +51,9 @@ export const ChatRoomInfoScreen: FC<ScreenProps<'chatRoomInfo'>> = ({
           </Output.Root>
           <Output.Root mt="16px">
             <Output.Label>Código</Output.Label>
-            <Output.Value enableCopy>{chatRoom.code}</Output.Value>
+            <Output.Value enableCopy successTextWhenCopying="Código copiado com sucesso">
+              {chatRoom.code}
+            </Output.Value>
           </Output.Root>
           <Output.Root mt="16px">
             <Output.Label>Data de criação</Output.Label>
