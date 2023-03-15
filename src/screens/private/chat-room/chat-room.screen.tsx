@@ -3,10 +3,14 @@ import { Box, Text } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useNavigation } from '@react-navigation/native';
+
+import { FindOneChatRoomService } from '../../../modules/chat_room/services/find-one-chat-room.service';
 
 import { TextField, Button } from '../../../common/components';
 
 import { useDimensions } from '../../../common/hooks/use-dimensions.hook';
+import { useLoading } from '../../../common/hooks/use-loding.hook';
 
 import LogoImage from '../../../common/assets/logo.svg';
 
@@ -20,9 +24,13 @@ type ChatRoomFormData = z.infer<typeof chatRoomFormSchema>;
 
 export const ChatRoomScreen = () => {
   const { height } = useDimensions();
+  const { isLoading, enableLoading, disableLoading } = useLoading();
+  const { navigate } = useNavigation();
   const {
     control,
     handleSubmit,
+    setError,
+    reset,
     formState: { errors },
   } = useForm<ChatRoomFormData>({
     defaultValues: {
@@ -31,8 +39,26 @@ export const ChatRoomScreen = () => {
     resolver: zodResolver(chatRoomFormSchema),
   });
 
-  const onSubmit: SubmitHandler<ChatRoomFormData> = ({ code }) => {
-    console.log(code);
+  const onSubmit: SubmitHandler<ChatRoomFormData> = async ({ code }) => {
+    try {
+      enableLoading();
+
+      const chatRoom = await FindOneChatRoomService.execute({ code });
+
+      if (!chatRoom) {
+        setError('code', { message: 'Código inválido' });
+        return;
+      }
+      reset();
+      disableLoading();
+
+      navigate('chat', {
+        chatRoomId: chatRoom.id,
+        code: chatRoom.code,
+      });
+    } finally {
+      disableLoading();
+    }
   };
 
   return (
@@ -55,11 +81,12 @@ export const ChatRoomScreen = () => {
               <TextField.Input
                 control={control}
                 name="code"
+                keyboardType="numeric"
                 placeholder="Digite o código"
               />
               {!!errors.code && <TextField.Error>{errors.code.message}</TextField.Error>}
             </TextField.Root>
-            <Button mt="16px" onPress={handleSubmit(onSubmit)}>
+            <Button mt="16px" onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
               Entrar na sala
             </Button>
           </Box>

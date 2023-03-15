@@ -5,6 +5,10 @@ export type RoutesList = {
   splash: undefined;
   home: undefined;
   chatRoom: undefined;
+  chat: {
+    chatRoomId: string;
+    code: string;
+  };
   myRooms: undefined;
   chatRoomInfo: {
     chatRoom: ChatRoom;
