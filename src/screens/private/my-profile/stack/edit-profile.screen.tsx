@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { FindOneUserService } from '../../../../modules/user/services/find-one-user.service';
-import { UpdateOneUserService } from '../../../../modules/user/services/update-one-user-to-database..service';
+import { UpdateOneUserService } from '../../../../modules/user/services/update-one-user.service';
 
 import { Header, TextField, Button } from '../../../../common/components';
 
