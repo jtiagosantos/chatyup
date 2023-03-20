@@ -1,4 +1,6 @@
 import 'react-native-reanimated';
+import './src/common/lib/bcrypt';
+
 import { StatusBar } from 'expo-status-bar';
 import {
   useFonts,
