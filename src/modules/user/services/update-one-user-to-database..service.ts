@@ -1,16 +1,24 @@
-import firestore from '@react-native-firebase/firestore';
-import { ECollections } from '../../../infra/firebase/enums/collections.enum';
-import type { User } from '../types/user.type';
+import { supabase } from '../../../infra/supabase/client';
+import { ETables } from '../../../infra/supabase/enums/tables.enum';
 
-export class UpdateOneUserToDatabaseService {
+type UpdateOneUserDto = {
+  id: string;
+  firstName?: string;
+  username?: string;
+  email?: string;
+  avatarURL?: string;
+};
+
+export class UpdateOneUserService {
   public static async execute({
     id,
     firstName,
     username,
     email,
     avatarURL,
-  }: Partial<Omit<User, 'password'>>) {
+  }: UpdateOneUserDto) {
     let dataToUpdate = {};
+
     if (firstName) {
       dataToUpdate = { ...dataToUpdate, first_name: firstName };
     }
@@ -23,9 +31,10 @@ export class UpdateOneUserToDatabaseService {
     if (avatarURL) {
       dataToUpdate = { ...dataToUpdate, avatar_url: avatarURL };
     }
-    const dateNow = firestore.Timestamp.now();
+
+    const dateNow = new Date();
     dataToUpdate = { ...dataToUpdate, updated_at: dateNow };
 
-    await firestore().collection(ECollections.USERS).doc(id).update(dataToUpdate);
+    await supabase.from(ETables.USERS).update(dataToUpdate).eq('id', id);
   }
 }
