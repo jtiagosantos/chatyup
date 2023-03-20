@@ -106,7 +106,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
 
     if (user) {
       disableLoading();
-      setError('username', { message: 'Nome de usuário já em uso' });
+      setError('username', { message: 'Nome de usuário informado já em uso' });
       return;
     }
 
