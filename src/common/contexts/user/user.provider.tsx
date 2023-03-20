@@ -1,8 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 
 import { SignInService } from '../../../modules/user/services/sign-in.service';
-import { CreateOneUserToAuthService } from '../../../modules/user/services/create-one-user-to-auth.service';
-import { CreateOneUserToDatabaseService } from '../../../modules/user/services/create-one-user-to-database.service';
+import { CreateOneUserService } from '../../../modules/user/services/create-one-user.service';
 import { RecoveryPasswordService } from '../../../modules/user/services/recovery-password.service';
 import { SignOutService } from '../../../modules/user/services/sign-out.service';
 
@@ -25,13 +24,12 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   }, []);
 
   const signUp = useCallback(
-    async ({ firstName, username, email, password, avatarURL }: SignUpCredentials) => {
-      await CreateOneUserToAuthService.execute({ email, password });
-      await CreateOneUserToDatabaseService.execute({
+    async ({ firstName, username, email, password }: SignUpCredentials) => {
+      await CreateOneUserService.execute({
         firstName,
         username,
         email,
-        avatarURL,
+        password,
       });
     },
     [],
