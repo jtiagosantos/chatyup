@@ -106,11 +106,11 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
 
     if (user) {
       disableLoading();
-      setError('username', { message: 'Nome de usuário informado já em uso' });
+      setError('username', { message: 'Nome de usuário já em uso' });
       return;
     }
 
-    await signUp({ firstName: first_name, username, email, password, avatarURL: '' });
+    await signUp({ firstName: first_name, username, email, password });
 
     setShowLinkToSignInForm(true);
     disableLoading();
