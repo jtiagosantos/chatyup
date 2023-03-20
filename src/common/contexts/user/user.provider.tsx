@@ -20,7 +20,9 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   const { getItem, setItem, removeItem } = useStorage(EStorage.USER_INFO);
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
-    await SignInService.execute({ email, password });
+    const user = await SignInService.execute({ email, password });
+
+    return user;
   }, []);
 
   const signUp = useCallback(

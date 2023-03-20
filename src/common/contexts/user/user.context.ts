@@ -5,7 +5,7 @@ export const UserContext = createContext({} as UserContextData);
 
 type UserContextData = {
   user: User | null;
-  signIn: (credentials: SignInCredentials) => Promise<void>;
+  signIn: (credentials: SignInCredentials) => Promise<User>;
   signUp: (credentials: SignUpCredentials) => Promise<void>;
   recoveryPassword: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
