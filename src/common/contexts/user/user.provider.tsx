@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react';
 
 import { SignInService } from '../../../modules/user/services/sign-in.service';
 import { CreateOneUserService } from '../../../modules/user/services/create-one-user.service';
-import { RecoveryPasswordService } from '../../../modules/user/services/recovery-password.service';
 
 import { UserContext } from './user.context';
 
@@ -37,7 +36,7 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   );
 
   const recoveryPassword = useCallback(async (email: string) => {
-    await RecoveryPasswordService.execute(email);
+    //await RecoveryPasswordService.execute(email);
   }, []);
 
   const signOut = useCallback(async () => {
