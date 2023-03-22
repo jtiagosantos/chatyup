@@ -28,10 +28,10 @@ export class FindManyRoomsService {
 
     if (!roomsExist) return [];
 
-    const formattedRooms = roomsFromDatabase!.map((room) =>
+    const rooms = roomsFromDatabase!.map((room) =>
       RoomMapper.toDomain(room as RoomFromDatabase),
     );
 
-    return formattedRooms;
+    return rooms;
   }
 }
