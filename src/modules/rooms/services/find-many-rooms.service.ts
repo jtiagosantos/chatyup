@@ -17,6 +17,7 @@ export class FindManyRoomsService {
         .from(ETables.ROOMS)
         .select('*')
         .eq('owner_id', ownerId)
+        .is('deleted_at', null)
         .order('created_at', {
           ascending: false,
         });
@@ -30,8 +31,6 @@ export class FindManyRoomsService {
     const formattedRooms = roomsFromDatabase!.map((room) =>
       RoomMapper.toDomain(room as RoomFromDatabase),
     );
-
-    console.log(formattedRooms);
 
     return formattedRooms;
   }
