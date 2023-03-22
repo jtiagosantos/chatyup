@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-import { CreateOneChatRoomService } from '../../../modules/chat_room/services/create-one-chat-room.service';
-import { FindManyChatRoomsService } from '../../../modules/chat_room/services/find-many-chat-rooms.service';
+import { CreateOneRoomService } from '../../../modules/rooms/services/create-one-room.service';
+import { FindManyRoomsService } from '../../../modules/rooms/services/find-many-rooms.service';
 
 import { Button, TextField } from '../../../common/components';
 import { ChatRoomsList } from './components/chat-rooms-list.component';
@@ -16,7 +16,7 @@ import { useLoading } from '../../../common/hooks/use-loding.hook';
 import { generateRoomCode } from '../../../common/utils/generate-room-code.util';
 
 import type { SubmitHandler } from 'react-hook-form';
-import type { ChatRoom } from '../../../modules/chat_room/types/chat-room.type';
+import type { Room } from '../../../modules/rooms/types/room.type';
 
 const createRoomFormSchema = z.object({
   room_name: z.string().min(1, { message: 'Campo obrigatório' }),
@@ -40,7 +40,7 @@ export const MyRoomsScreen = () => {
     },
     resolver: zodResolver(createRoomFormSchema),
   });
-  const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
+  const [chatRooms, setChatRooms] = useState<Room[]>([]);
 
   const userHasSomeChatRoom = !!chatRooms.length;
 
@@ -52,7 +52,7 @@ export const MyRoomsScreen = () => {
       const userId = user!.id;
       const name = data.room_name;
 
-      await CreateOneChatRoomService.execute({ name, code, userId });
+      await CreateOneRoomService.execute({ name, code, ownerId: userId });
 
       createChatRoomLoadingState.disableLoading();
       onClose();
@@ -77,7 +77,7 @@ export const MyRoomsScreen = () => {
   };
 
   const fetchChatRooms = async () => {
-    return FindManyChatRoomsService.execute({ userId: user!.id });
+    return FindManyRoomsService.execute({ ownerId: user?.id });
   };
 
   useEffect(() => {
