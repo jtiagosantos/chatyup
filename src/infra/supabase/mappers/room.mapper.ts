@@ -1,6 +1,6 @@
 import type { Room } from '../../../modules/rooms/types/room.type';
 
-type RoomToDatabase = Omit<Room, 'id' | 'deletedAt'> & {
+type RoomToDatabase = Omit<Room, 'id' | 'deletedAt' | 'createdAt'> & {
   ownerId: string;
 };
 
