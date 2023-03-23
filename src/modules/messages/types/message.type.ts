@@ -5,5 +5,9 @@ export type Message = {
   kind: keyof typeof EKindMessage;
   content: string;
   deletedAt: Date | null;
-  createdAt: Date;
+  createdAt: string;
+  user: {
+    firstName: string;
+    avatarURL: string;
+  };
 };
