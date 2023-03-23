@@ -1,5 +1,6 @@
 import 'react-native-reanimated';
 import './src/common/lib/bcrypt';
+import './src/common/lib/dayjs';
 
 import { StatusBar } from 'expo-status-bar';
 import {
