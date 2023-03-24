@@ -1,18 +1,26 @@
-import { FlatList, Keyboard } from 'react-native';
+import { useState, useEffect, useMemo } from 'react';
+import { Keyboard } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Box, Flex, useTheme, Divider } from 'native-base';
+import { Box, Flex, useTheme, Divider, Spinner } from 'native-base';
 import { PaperPlaneRight } from 'phosphor-react-native';
+import { supabase } from '../../../../infra/supabase/client';
+
+import { CreateOneMessageService } from '../../../../modules/messages/services/create-one-message.service';
+import { FindManyMessagesService } from '../../../../modules/messages/services/find-many-messages.service';
 
 import { Button, Output, TextField } from '../../../../common/components';
-import { Message } from '../components/message.component';
+import { MessagesList } from '../components/messages-list.component';
 
+import { useUser } from '../../../../common/hooks/use-user.hook';
 import { useDimensions } from '../../../../common/hooks/use-dimensions.hook';
+import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
 import type { FC } from 'react';
 import type { ScreenProps } from '../../../../common/types/screen-props.type';
 import type { SubmitHandler } from 'react-hook-form';
+import type { Message } from '../../../../modules/messages/types/message.type';
 
 const chatFormSchema = z.object({
   message: z.string().min(1, { message: 'Campo obrigatório' }),
@@ -20,46 +28,91 @@ const chatFormSchema = z.object({
 
 type ChatFormData = z.infer<typeof chatFormSchema>;
 
-const messages = [
-  {
-    id: 1,
-    avatarURL: 'https://github.com/jtiagosantos.png',
-    author: 'jtiagosantos',
-    text: 'E aí galera, beleza?',
-  },
-];
-
 export const ChatScreen: FC<ScreenProps<'chat'>> = ({
   route,
   navigation: { goBack },
 }) => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const { user } = useUser();
   const { colors } = useTheme();
   const { width } = useDimensions();
+  const sendMessageState = useLoading();
+  const findMessagesState = useLoading();
   const {
     control,
     handleSubmit,
     reset,
-    formState: { errors, isDirty },
+    formState: { isDirty },
   } = useForm<ChatFormData>({
     defaultValues: {
       message: '',
     },
     resolver: zodResolver(chatFormSchema),
   });
+  const channel = useMemo(() => supabase.channel(`room-${chatRoomId}`), []);
 
   const {
     params: { chatRoomId, code },
   } = route;
 
   const onSubmit: SubmitHandler<ChatFormData> = async ({ message }) => {
-    console.log(message);
-    Keyboard.dismiss();
-    reset();
+    try {
+      sendMessageState.enableLoading();
+      Keyboard.dismiss();
+
+      await CreateOneMessageService.execute({
+        kind: 'TEXT',
+        content: message,
+        ownerId: user!.id,
+        roomId: chatRoomId,
+      });
+
+      reset();
+    } finally {
+      sendMessageState.disableLoading();
+    }
   };
 
   const handleLeaveTheRoom = () => {
     goBack();
   };
+
+  const findRealTimeMessages = async () => {
+    const realTimeMessages = await FindManyMessagesService.execute({
+      roomId: chatRoomId,
+    });
+    setMessages(realTimeMessages);
+  };
+
+  useEffect(() => {
+    findMessagesState.enableLoading();
+    FindManyMessagesService.execute({ roomId: chatRoomId })
+      .then((data) => {
+        setMessages(data);
+      })
+      .finally(() => {
+        findMessagesState.disableLoading();
+      });
+  }, []);
+
+  useEffect(() => {
+    const realTimeChanges = channel
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `room_id=eq.${chatRoomId}`,
+        },
+        findRealTimeMessages,
+      )
+      .subscribe();
+
+    return () => {
+      realTimeChanges.unsubscribe();
+    };
+  }, []);
 
   return (
     <Box flex={1} p="24px" bgColor="gray.900">
@@ -73,15 +126,13 @@ export const ChatScreen: FC<ScreenProps<'chat'>> = ({
           Sair da sala
         </Button>
       </Flex>
-      <FlatList
-        data={messages}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (
-          <Message avatarURL={item.avatarURL} author={item.author} text={item.text} />
-        )}
-        inverted
-        showsVerticalScrollIndicator={false}
-      />
+      {!findMessagesState.isLoading ? (
+        <MessagesList messages={messages} />
+      ) : (
+        <Flex flex={1} align="center" justify="center">
+          <Spinner size="lg" color="violet.800" />
+        </Flex>
+      )}
       <Divider bgColor="gray.500" mb="16px" mt="24px" />
       <Flex
         maxW={`${width}px`}
@@ -94,9 +145,15 @@ export const ChatScreen: FC<ScreenProps<'chat'>> = ({
             control={control}
             name="message"
             placeholder="Digite a sua mensagem"
+            onSubmitEditing={handleSubmit(onSubmit)}
           />
         </TextField.Root>
-        <Button w="50px" h="100%" isDisabled={!isDirty} onPress={handleSubmit(onSubmit)}>
+        <Button
+          w="50px"
+          h="100%"
+          isDisabled={!isDirty}
+          isLoading={sendMessageState.isLoading}
+          onPress={handleSubmit(onSubmit)}>
           <PaperPlaneRight size={22} color={colors.white} />
         </Button>
       </Flex>
