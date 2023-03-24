@@ -83,6 +83,7 @@ export const ChatRoomScreen = () => {
                 name="code"
                 keyboardType="numeric"
                 placeholder="Digite o código"
+                onSubmitEditing={handleSubmit(onSubmit)}
               />
               {!!errors.code && <TextField.Error>{errors.code.message}</TextField.Error>}
             </TextField.Root>
