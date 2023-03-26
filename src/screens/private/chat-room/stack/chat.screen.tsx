@@ -3,7 +3,7 @@ import { Keyboard } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Box, Flex, useTheme, Divider, Spinner } from 'native-base';
+import { Box, Flex, useTheme, Divider, Spinner, Text } from 'native-base';
 import { PaperPlaneRight } from 'phosphor-react-native';
 import { supabase } from '../../../../infra/supabase/client';
 
@@ -55,6 +55,7 @@ export const ChatScreen: FC<ScreenProps<'chat'>> = ({
   const {
     params: { chatRoomId, code },
   } = route;
+  const hasSomeMessage = !!messages.length;
 
   const onSubmit: SubmitHandler<ChatFormData> = async ({ message }) => {
     try {
@@ -133,7 +134,21 @@ export const ChatScreen: FC<ScreenProps<'chat'>> = ({
         </Button>
       </Flex>
       {!findMessagesState.isLoading ? (
-        <MessagesList messages={messages} />
+        <>
+          {hasSomeMessage && <MessagesList messages={messages} />}
+          {!hasSomeMessage && (
+            <Flex flex={1} align="center" justify="center" maxW="185px" mx="auto">
+              <Text
+                color="gray.500"
+                fontSize="16px"
+                fontWeight="light"
+                textAlign="center"
+                lineHeight="24px">
+                As mensagens desta sala serão listadas aqui
+              </Text>
+            </Flex>
+          )}
+        </>
       ) : (
         <Flex flex={1} align="center" justify="center">
           <Spinner size="lg" color="violet.800" />
