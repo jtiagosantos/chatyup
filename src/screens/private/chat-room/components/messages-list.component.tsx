@@ -35,6 +35,7 @@ export const MessagesListComponent: FC<MessagesListProps> = ({ messages }) => {
   );
 };
 
-export const MessagesList = memo(MessagesListComponent, (prevProps, nextProps) =>
-  Object.is(prevProps.messages, nextProps.messages),
+export const MessagesList = memo(
+  MessagesListComponent,
+  (prevProps, nextProps) => prevProps.messages === nextProps.messages,
 );
