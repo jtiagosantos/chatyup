@@ -6,10 +6,10 @@ import { Info } from 'phosphor-react-native';
 import { useDimensions } from '../../../../common/hooks/use-dimensions.hook';
 
 import type { FC } from 'react';
-import type { ChatRoom } from '../../../../modules/chat_room/types/chat-room.type';
+import type { Room } from '../../../../modules/rooms/types/room.type';
 
 type ChatRoomsListProps = {
-  chatRooms: ChatRoom[];
+  chatRooms: Room[];
   onUpdateChatRooms: () => Promise<void>;
 };
 
@@ -21,7 +21,7 @@ export const ChatRoomsList: FC<ChatRoomsListProps> = ({
   const { navigate } = useNavigation();
   const { width } = useDimensions();
 
-  const handleNavigationToChatRoomInfoScreen = (chatRoom: ChatRoom) => {
+  const handleNavigationToChatRoomInfoScreen = (chatRoom: Room) => {
     navigate('chatRoomInfo', {
       chatRoom,
       onUpdateChatRooms,
@@ -30,7 +30,7 @@ export const ChatRoomsList: FC<ChatRoomsListProps> = ({
 
   return (
     <Flex flex={1} align="center" mt="32px">
-      <FlatList<ChatRoom>
+      <FlatList<Room>
         data={chatRooms}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (

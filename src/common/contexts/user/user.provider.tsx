@@ -1,10 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 
 import { SignInService } from '../../../modules/user/services/sign-in.service';
-import { CreateOneUserToAuthService } from '../../../modules/user/services/create-one-user-to-auth.service';
-import { CreateOneUserToDatabaseService } from '../../../modules/user/services/create-one-user-to-database.service';
-import { RecoveryPasswordService } from '../../../modules/user/services/recovery-password.service';
-import { SignOutService } from '../../../modules/user/services/sign-out.service';
+import { CreateOneUserService } from '../../../modules/user/services/create-one-user.service';
 
 import { UserContext } from './user.context';
 
@@ -21,28 +18,28 @@ export const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   const { getItem, setItem, removeItem } = useStorage(EStorage.USER_INFO);
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
-    await SignInService.execute({ email, password });
+    const user = await SignInService.execute({ email, password });
+
+    return user;
   }, []);
 
   const signUp = useCallback(
-    async ({ firstName, username, email, password, avatarURL }: SignUpCredentials) => {
-      await CreateOneUserToAuthService.execute({ email, password });
-      await CreateOneUserToDatabaseService.execute({
+    async ({ firstName, username, email, password }: SignUpCredentials) => {
+      await CreateOneUserService.execute({
         firstName,
         username,
         email,
-        avatarURL,
+        password,
       });
     },
     [],
   );
 
   const recoveryPassword = useCallback(async (email: string) => {
-    await RecoveryPasswordService.execute(email);
+    //await RecoveryPasswordService.execute(email);
   }, []);
 
   const signOut = useCallback(async () => {
-    await SignOutService.execute();
     await removeUserFromStorage();
     setUser(null);
   }, []);

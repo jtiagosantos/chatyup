@@ -8,8 +8,6 @@ import { TextField, Button } from '../../../../common/components';
 import { useUser } from '../../../../common/hooks/use-user.hook';
 import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
-import { EFirebaseErrors } from '../../../../infra/firebase/enums/firebase-errors.enum';
-
 import type { FC } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 
@@ -63,9 +61,9 @@ export const RecoveryPasswordForm: FC<RecoveryPasswordFormProps> = ({
       if (error?.code) {
         const { code } = error;
 
-        if (code === EFirebaseErrors.USER_NOT_FOUND) {
+        /* if (code === EFirebaseErrors.USER_NOT_FOUND) {
           setError('email', { message: 'E-mail não cadastrado' });
-        }
+        } */
       }
     } finally {
       disableLoading();

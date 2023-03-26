@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigation } from '@react-navigation/native';
 
-import { FindOneChatRoomService } from '../../../modules/chat_room/services/find-one-chat-room.service';
+import { FindOneRoomService } from '../../../modules/rooms/services/find-one-room.service';
 
 import { TextField, Button } from '../../../common/components';
 
@@ -43,9 +43,9 @@ export const ChatRoomScreen = () => {
     try {
       enableLoading();
 
-      const chatRoom = await FindOneChatRoomService.execute({ code });
+      const room = await FindOneRoomService.execute({ code });
 
-      if (!chatRoom) {
+      if (!room) {
         setError('code', { message: 'Código inválido' });
         return;
       }
@@ -53,8 +53,8 @@ export const ChatRoomScreen = () => {
       disableLoading();
 
       navigate('chat', {
-        chatRoomId: chatRoom.id,
-        code: chatRoom.code,
+        chatRoomId: room.id,
+        code: room.code,
       });
     } finally {
       disableLoading();
@@ -83,6 +83,7 @@ export const ChatRoomScreen = () => {
                 name="code"
                 keyboardType="numeric"
                 placeholder="Digite o código"
+                onSubmitEditing={handleSubmit(onSubmit)}
               />
               {!!errors.code && <TextField.Error>{errors.code.message}</TextField.Error>}
             </TextField.Root>

@@ -1,7 +1,7 @@
 import { LogBox } from 'react-native';
 import { Box, Flex, Modal, useDisclose, Text } from 'native-base';
 
-import { SoftDeleteOneChatRoomService } from '../../../../modules/chat_room/services/soft-delete-one-chat-room.service';
+import { SoftDeleteOneRoomService } from '../../../../modules/rooms/services/soft-delete-one-room.service';
 
 import { Header, Button, Output } from '../../../../common/components';
 
@@ -30,7 +30,7 @@ export const ChatRoomInfoScreen: FC<ScreenProps<'chatRoomInfo'>> = ({
     try {
       enableLoading();
 
-      await SoftDeleteOneChatRoomService.execute(chatRoom.id);
+      await SoftDeleteOneRoomService.execute({ roomId: chatRoom.id });
       await onUpdateChatRooms();
 
       disableLoading();

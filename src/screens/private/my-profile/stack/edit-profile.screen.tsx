@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { Box, Flex, Spinner, useToast } from 'native-base';
 import { useForm } from 'react-hook-form';
@@ -6,8 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { FindOneUserService } from '../../../../modules/user/services/find-one-user.service';
-import { UpdateOneUserToAuthService } from '../../../../modules/user/services/update-one-user-to-auth.service';
-import { UpdateOneUserToDatabaseService } from '../../../../modules/user/services/update-one-user-to-database..service';
+import { UpdateOneUserService } from '../../../../modules/user/services/update-one-user.service';
 
 import { Header, TextField, Button } from '../../../../common/components';
 
@@ -33,7 +31,7 @@ const editProfileFormSchema = z.object({
 type EditProfileFormData = z.infer<typeof editProfileFormSchema>;
 
 export const EditProfileScreen = () => {
-  const { user, signIn, updateUserFromState, saveUserToStorage } = useUser();
+  const { user, updateUserFromState, saveUserToStorage } = useUser();
   const {
     control,
     handleSubmit,
@@ -82,8 +80,7 @@ export const EditProfileScreen = () => {
         return;
       }
 
-      await UpdateOneUserToAuthService.execute(email);
-      await UpdateOneUserToDatabaseService.execute({
+      await UpdateOneUserService.execute({
         id: user!.id,
         firstName: first_name,
         username,
@@ -97,11 +94,10 @@ export const EditProfileScreen = () => {
         return;
       }
 
-      await UpdateOneUserToDatabaseService.execute({
+      await UpdateOneUserService.execute({
         id: user!.id,
         firstName: first_name,
         username,
-        email,
       });
     } else if (emailFieldIsDirty) {
       const userByEmailExists = await FindOneUserService.execute({ email });
@@ -111,19 +107,15 @@ export const EditProfileScreen = () => {
         return;
       }
 
-      await UpdateOneUserToAuthService.execute(email);
-      await UpdateOneUserToDatabaseService.execute({
+      await UpdateOneUserService.execute({
         id: user!.id,
         firstName: first_name,
-        username,
         email,
       });
     } else {
-      await UpdateOneUserToDatabaseService.execute({
+      await UpdateOneUserService.execute({
         id: user!.id,
         firstName: first_name,
-        username,
-        email,
       });
     }
 
@@ -150,17 +142,6 @@ export const EditProfileScreen = () => {
       mb: -5,
     });
   };
-
-  useEffect(() => {
-    signInLoadingState.enableLoading();
-    signIn({ email: user!.email, password: user!.password })
-      .then(() => {
-        signInLoadingState.disableLoading();
-      })
-      .finally(() => {
-        signInLoadingState.disableLoading();
-      });
-  }, []);
 
   return (
     <>

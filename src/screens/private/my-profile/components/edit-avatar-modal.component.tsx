@@ -2,8 +2,10 @@ import { useEffect } from 'react';
 import { Modal, Text, useToast } from 'native-base';
 import { Controller, useForm } from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
+import { decode } from 'base64-arraybuffer';
 
-import { UpdateOneUserToDatabaseService } from '../../../../modules/user/services/update-one-user-to-database..service';
+import { supabase } from '../../../../infra/supabase/client';
+import { UpdateOneUserService } from '../../../../modules/user/services/update-one-user.service';
 
 import { Button } from '../../../../common/components';
 import { Avatar } from './avatar.component';
@@ -18,12 +20,11 @@ import { useLoading } from '../../../../common/hooks/use-loding.hook';
 import type { FC } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 
-import storage from '@react-native-firebase/storage';
-
 const MAX_FILE_SIZE = 2000000; //bytes
 
 type EditAtavarData = {
   avatar_url: string;
+  base64: string;
 };
 
 type EditAvatarProps = {
@@ -44,6 +45,7 @@ export const EditAvatarModal: FC<EditAvatarProps> = ({ isOpen, onClose }) => {
   } = useForm<EditAtavarData>({
     defaultValues: {
       avatar_url: user?.avatarURL,
+      base64: '',
     },
   });
   const toast = useToast();
@@ -57,14 +59,16 @@ export const EditAvatarModal: FC<EditAvatarProps> = ({ isOpen, onClose }) => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true,
     });
 
     if (!result.canceled) {
       setValue('avatar_url', result.assets[0].uri);
+      setValue('base64', result.assets[0].base64!);
     }
   };
 
-  const onSubmit: SubmitHandler<EditAtavarData> = async ({ avatar_url }) => {
+  const onSubmit: SubmitHandler<EditAtavarData> = async ({ avatar_url, base64 }) => {
     enableLoading();
 
     if (!avatar_url) {
@@ -86,20 +90,35 @@ export const EditAvatarModal: FC<EditAvatarProps> = ({ isOpen, onClose }) => {
 
       try {
         const fileExtension = getFileExtension(avatar_url);
-        const reference = storage().ref(`avatar/user-ref-${user!.id}.${fileExtension}`);
-        await reference.putFile(avatar_url);
-        const url = await reference.getDownloadURL();
+        const timestamp = new Date().getTime();
 
-        await UpdateOneUserToDatabaseService.execute({
+        await supabase.storage
+          .from('files')
+          .upload(
+            `/avatars/user-${user!.id}/avatar-${timestamp}.${fileExtension}`,
+            decode(base64),
+            {
+              upsert: true,
+              contentType: `image/${fileExtension}`,
+            },
+          );
+
+        const { data } = supabase.storage
+          .from('files')
+          .getPublicUrl(`/avatars/user-${user!.id}/avatar-${timestamp}.${fileExtension}`);
+
+        const fileURL = data.publicUrl;
+
+        await UpdateOneUserService.execute({
           id: user!.id,
-          avatarURL: url,
+          avatarURL: fileURL,
         });
 
         await saveUserToStorage({
-          avatarURL: url,
+          avatarURL: fileURL,
         });
         updateUserFromState({
-          avatarURL: url,
+          avatarURL: fileURL,
         });
 
         disableLoading();

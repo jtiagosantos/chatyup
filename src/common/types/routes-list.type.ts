@@ -1,4 +1,4 @@
-import type { ChatRoom } from '../../modules/chat_room/types/chat-room.type';
+import type { Room } from '../../modules/rooms/types/room.type';
 
 export type RoutesList = {
   auth: undefined;
@@ -11,7 +11,7 @@ export type RoutesList = {
   };
   myRooms: undefined;
   chatRoomInfo: {
-    chatRoom: ChatRoom;
+    chatRoom: Room;
     onUpdateChatRooms: () => Promise<void>;
   };
   myProfile: undefined;

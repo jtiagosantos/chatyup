@@ -3,14 +3,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-import { FindOneUserService } from '../../../../modules/user/services/find-one-user.service';
-
 import { TextField, Button } from '../../../../common/components';
 
 import { useUser } from '../../../../common/hooks/use-user.hook';
 import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
-import { EFirebaseErrors } from '../../../../infra/firebase/enums/firebase-errors.enum';
+import { EmailNotFoundError } from '../../../../modules/user/errors/email-not-found.error';
+import { InvalidPasswordError } from '../../../../modules/user/errors/invalid-password.error';
 
 import type { FC } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -51,23 +50,21 @@ export const SignInForm: FC<SignInFormProps> = ({
   const onSubmit: SubmitHandler<SignInFormData> = async ({ email, password }) => {
     try {
       enableLoading();
-      await signIn({ email, password });
+      const user = await signIn({ email, password });
 
-      const user = await FindOneUserService.execute({ email });
+      delete user.password;
 
-      await saveUserToStorage({ ...user, password });
-      saveUserToState({ ...user!, password });
+      await saveUserToStorage({ ...user });
+      saveUserToState({ ...user });
 
       clearFormFields();
-    } catch (error: any) {
-      if (error?.code) {
-        const { code } = error;
+    } catch (error) {
+      if (error instanceof EmailNotFoundError) {
+        setError('email', { message: error.message });
+      }
 
-        if (code === EFirebaseErrors.USER_NOT_FOUND) {
-          setError('email', { message: 'E-mail não cadastrado' });
-        } else if (code === EFirebaseErrors.WRONG_PASSWORD) {
-          setError('password', { message: 'Senha inválida' });
-        }
+      if (error instanceof InvalidPasswordError) {
+        setError('password', { message: error.message });
       }
     } finally {
       disableLoading();
