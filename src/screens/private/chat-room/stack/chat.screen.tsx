@@ -9,6 +9,7 @@ import { supabase } from '../../../../infra/supabase/client';
 
 import { CreateOneMessageService } from '../../../../modules/messages/services/create-one-message.service';
 import { FindManyMessagesService } from '../../../../modules/messages/services/find-many-messages.service';
+import { FindOneMessageService } from '../../../../modules/messages/services/find-one-message.service';
 
 import { Button, Output, TextField } from '../../../../common/components';
 import { MessagesList } from '../components/messages-list.component';
@@ -77,11 +78,14 @@ export const ChatScreen: FC<ScreenProps<'chat'>> = ({
     goBack();
   };
 
-  const findRealTimeMessages = async () => {
-    const realTimeMessages = await FindManyMessagesService.execute({
-      roomId: chatRoomId,
+  const findRealTimeMessage = async (messageId: string) => {
+    const newMessage = await FindOneMessageService.execute({
+      messageId,
     });
-    setMessages(realTimeMessages);
+
+    if (newMessage) {
+      setMessages((currentMessages) => [newMessage, ...currentMessages]);
+    }
   };
 
   useEffect(() => {
@@ -105,7 +109,9 @@ export const ChatScreen: FC<ScreenProps<'chat'>> = ({
           table: 'messages',
           filter: `room_id=eq.${chatRoomId}`,
         },
-        findRealTimeMessages,
+        (payload) => {
+          findRealTimeMessage(payload.new.id);
+        },
       )
       .subscribe();
 
