@@ -2,6 +2,8 @@ import { Image, Box, Flex, Text } from 'native-base';
 
 import { useDimensions } from '../../../../common/hooks/use-dimensions.hook';
 
+import UserProfileImage from '../../../../common/assets/user-profile.svg';
+
 import type { FC } from 'react';
 
 type MessageProps = {
@@ -36,13 +38,17 @@ export const MessageCard: FC<MessageProps> = ({
         borderRadius="full"
         borderWidth="1px"
         borderColor="violet.800">
-        <Image
-          source={{ uri: ownerAvatarURL }}
-          width="full"
-          height="full"
-          borderRadius="full"
-          alt={ownerName}
-        />
+        {ownerAvatarURL ? (
+          <Image
+            source={{ uri: ownerAvatarURL }}
+            width="full"
+            height="full"
+            borderRadius="full"
+            alt={ownerName}
+          />
+        ) : (
+          <UserProfileImage width={24} />
+        )}
       </Flex>
       <Box ml="10px">
         <Flex
