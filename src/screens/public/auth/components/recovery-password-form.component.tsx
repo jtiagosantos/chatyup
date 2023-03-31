@@ -1,4 +1,4 @@
-import * as Linking from 'expo-linking';
+import { Linking } from 'react-native';
 import { Link, Flex, useToast } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
