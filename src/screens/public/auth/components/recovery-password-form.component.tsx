@@ -1,14 +1,16 @@
+import * as Linking from 'expo-linking';
 import { Link, Flex, useToast } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+import { FindOneUserService } from '../../../../modules/user/services/find-one-user.service';
+
 import { TextField, Button } from '../../../../common/components';
 
-import { useUser } from '../../../../common/hooks/use-user.hook';
 import { useLoading } from '../../../../common/hooks/use-loding.hook';
 
-import type { FC } from 'react';
+import { FC, useRef, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 
 const recoveryPasswordFormSchema = z.object({
@@ -41,30 +43,33 @@ export const RecoveryPasswordForm: FC<RecoveryPasswordFormProps> = ({
     },
     resolver: zodResolver(recoveryPasswordFormSchema),
   });
-  const { recoveryPassword } = useUser();
   const { isLoading, enableLoading, disableLoading } = useLoading();
+  const [enableRecoveryPassword, setEnableRecoveryPassword] = useState(false);
+  const userIdRef = useRef('');
 
   const onSubmit: SubmitHandler<RecoveryPasswordFormData> = async ({ email }) => {
     try {
       enableLoading();
 
-      await recoveryPassword(email);
+      const user = await FindOneUserService.execute({ email });
 
-      toast.closeAll();
+      if (!user) {
+        setError('email', { message: 'E-mail não cadastrado' });
+        disableLoading();
+
+        return;
+      }
+
+      userIdRef.current = user.id;
+      setEnableRecoveryPassword(true);
+
+      /* toast.closeAll();
       toast.show({
         title: 'Solicitação enviada',
         bgColor: 'success.900',
         mb: -5,
-      });
+      }); */
       disableLoading();
-    } catch (error: any) {
-      if (error?.code) {
-        const { code } = error;
-
-        /* if (code === EFirebaseErrors.USER_NOT_FOUND) {
-          setError('email', { message: 'E-mail não cadastrado' });
-        } */
-      }
     } finally {
       disableLoading();
     }
@@ -75,6 +80,14 @@ export const RecoveryPasswordForm: FC<RecoveryPasswordFormProps> = ({
     reset({ email: '' });
     clearErrors();
     onChangeToSignInForm();
+
+    if (enableRecoveryPassword) setEnableRecoveryPassword(false);
+  };
+
+  const handleNavigationToRecoveryPasswordWebSite = () => {
+    Linking.openURL(
+      `https://chatyup-website.vercel.app/recovery-password/${userIdRef.current}`,
+    );
   };
 
   return (
@@ -86,6 +99,7 @@ export const RecoveryPasswordForm: FC<RecoveryPasswordFormProps> = ({
           name="email"
           keyboardType="email-address"
           placeholder="Digite seu e-mail"
+          onEndEditing={handleSubmit(onSubmit)}
         />
         {!!errors.email && <TextField.Error>{errors.email.message}</TextField.Error>}
       </TextField.Root>
@@ -103,6 +117,19 @@ export const RecoveryPasswordForm: FC<RecoveryPasswordFormProps> = ({
           Acessar minha conta
         </Link>
       </Flex>
+      {enableRecoveryPassword && (
+        <Flex align="center" mt="24px">
+          <Link
+            onPress={handleNavigationToRecoveryPasswordWebSite}
+            _text={{
+              color: 'violet.800',
+              fontSize: '14px',
+              fontWeight: 'medium',
+            }}>
+            Alterar minha senha
+          </Link>
+        </Flex>
+      )}
     </Flex>
   );
 };
