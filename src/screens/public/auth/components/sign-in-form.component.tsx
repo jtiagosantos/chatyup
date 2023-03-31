@@ -1,4 +1,4 @@
-import { Link, Flex } from 'native-base';
+import { Link, Flex, Text } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -116,7 +116,7 @@ export const SignInForm: FC<SignInFormProps> = ({
         )}
       </TextField.Root>
       <Button onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
-        Entrar
+        <Text fontFamily="Poppins_500Medium">Entrar</Text>
       </Button>
       <Flex align="center" mt="24px">
         <Link
@@ -124,7 +124,7 @@ export const SignInForm: FC<SignInFormProps> = ({
           _text={{
             color: 'violet.800',
             fontSize: '14px',
-            fontWeight: 'medium',
+            fontFamily: 'Poppins_500Medium',
           }}>
           Esqueci a senha
         </Link>
@@ -135,7 +135,7 @@ export const SignInForm: FC<SignInFormProps> = ({
           _text={{
             color: 'violet.800',
             fontSize: '14px',
-            fontWeight: 'medium',
+            fontFamily: 'Poppins_500Medium',
           }}>
           Criar uma conta
         </Link>

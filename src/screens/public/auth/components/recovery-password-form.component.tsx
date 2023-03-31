@@ -1,5 +1,5 @@
 import { Linking } from 'react-native';
-import { Link, Flex, useToast } from 'native-base';
+import { Link, Flex, useToast, Text } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -104,7 +104,7 @@ export const RecoveryPasswordForm: FC<RecoveryPasswordFormProps> = ({
         {!!errors.email && <TextField.Error>{errors.email.message}</TextField.Error>}
       </TextField.Root>
       <Button onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
-        Enviar
+        <Text fontFamily="Poppins_500Medium">Enviar</Text>
       </Button>
       <Flex align="center" mt="24px">
         <Link
@@ -112,7 +112,7 @@ export const RecoveryPasswordForm: FC<RecoveryPasswordFormProps> = ({
           _text={{
             color: 'violet.800',
             fontSize: '14px',
-            fontWeight: 'medium',
+            fontFamily: 'Poppins_500Medium',
           }}>
           Acessar minha conta
         </Link>

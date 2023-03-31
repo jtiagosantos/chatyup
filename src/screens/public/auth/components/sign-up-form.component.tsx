@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, Flex, useToast } from 'native-base';
+import { Link, Flex, useToast, Text } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -172,7 +172,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
             )}
           </TextField.Root>
           <Button onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
-            Continuar
+            <Text fontFamily="Poppins_500Medium">Continuar</Text>
           </Button>
           <Flex align="center" mt="24px">
             <Link
@@ -180,7 +180,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
               _text={{
                 color: 'violet.800',
                 fontSize: '14px',
-                fontWeight: 'medium',
+                fontFamily: 'Poppins_500Medium',
               }}>
               Acessar minha conta
             </Link>
@@ -212,7 +212,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
             )}
           </TextField.Root>
           <Button onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
-            Criar conta
+            <Text fontFamily="Poppins_500Medium">Criar conta</Text>
           </Button>
           <Flex align="center" mt="24px">
             <Link
@@ -220,7 +220,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
               _text={{
                 color: 'violet.800',
                 fontSize: '14px',
-                fontWeight: 'medium',
+                fontFamily: 'Poppins_500Medium',
               }}>
               Voltar para a etapa anterior
             </Link>
@@ -232,7 +232,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ onChangeToSignInForm }) => {
                 _text={{
                   color: 'violet.800',
                   fontSize: '14px',
-                  fontWeight: 'medium',
+                  fontFamily: 'Poppins_500Medium',
                 }}>
                 Acessar minha conta
               </Link>
