@@ -1,5 +1,5 @@
 import { ScrollView } from 'react-native';
-import { Box, Flex, Spinner, useToast } from 'native-base';
+import { Box, Flex, Spinner, useToast, Text } from 'native-base';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -162,6 +162,7 @@ export const EditProfileScreen = () => {
                   control={control}
                   name="first_name"
                   placeholder="Digite seu primeiro nome"
+                  fontFamily="Poppins_400Regular"
                 />
                 {!!errors.first_name && (
                   <TextField.Error>{errors.first_name.message}</TextField.Error>
@@ -173,6 +174,7 @@ export const EditProfileScreen = () => {
                   control={control}
                   name="username"
                   placeholder="Digite seu nome de usuário"
+                  fontFamily="Poppins_400Regular"
                 />
                 {!!errors.username && (
                   <TextField.Error>{errors.username.message}</TextField.Error>
@@ -184,6 +186,7 @@ export const EditProfileScreen = () => {
                   control={control}
                   name="email"
                   placeholder="Digite seu e-mail"
+                  fontFamily="Poppins_400Regular"
                 />
                 {!!errors.email && (
                   <TextField.Error>{errors.email.message}</TextField.Error>
@@ -194,7 +197,7 @@ export const EditProfileScreen = () => {
                 onPress={handleSubmit(onSubmit)}
                 isLoading={updateProfileLoadingState.isLoading}
                 isDisabled={!hasDirtyField}>
-                Salvar alterações
+                <Text fontFamily="Poppins_500Medium">Salvar alterações</Text>
               </Button>
             </Flex>
           </ScrollView>

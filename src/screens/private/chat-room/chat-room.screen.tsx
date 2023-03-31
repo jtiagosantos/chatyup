@@ -84,11 +84,12 @@ export const ChatRoomScreen = () => {
                 keyboardType="numeric"
                 placeholder="Digite o código"
                 onSubmitEditing={handleSubmit(onSubmit)}
+                fontFamily="Poppins_400Regular"
               />
               {!!errors.code && <TextField.Error>{errors.code.message}</TextField.Error>}
             </TextField.Root>
             <Button mt="16px" onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
-              Entrar na sala
+              <Text fontFamily="Poppins_500Medium">Entrar na sala</Text>
             </Button>
           </Box>
         </Box>

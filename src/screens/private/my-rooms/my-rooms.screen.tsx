@@ -96,11 +96,11 @@ export const MyRoomsScreen = () => {
     <>
       <Box flex={1} bgColor="gray.900" p="24px" pb="0">
         <Flex flexDir="row" align="center" justify="space-between">
-          <Text color="gray.400" fontSize="16px" fontWeight="medium">
+          <Text color="gray.400" fontSize="16px" fontFamily="Poppins_500Medium">
             Salas criadas ({chatRooms.length})
           </Text>
           <Button maxW="95px" h="36px" onPress={onOpen}>
-            Criar sala
+            <Text fontFamily="Poppins_500Medium">Criar sala</Text>
           </Button>
         </Flex>
         {!userHasSomeChatRoom && (
@@ -114,7 +114,8 @@ export const MyRoomsScreen = () => {
                 fontSize="16px"
                 fontWeight="light"
                 textAlign="center"
-                lineHeight="24px">
+                lineHeight="24px"
+                fontFamily="Poppins_300Light">
                 Suas salas criadas serão listadas aqui
               </Text>
             )}
@@ -135,7 +136,11 @@ export const MyRoomsScreen = () => {
           <Modal.Body>
             <TextField.Root isInvalid={!!errors.room_name}>
               <TextField.Label>Nome da sala</TextField.Label>
-              <TextField.Input name="room_name" control={control} />
+              <TextField.Input
+                name="room_name"
+                control={control}
+                fontFamily="Poppins_400Regular"
+              />
               {!!errors.room_name && (
                 <TextField.Error>{errors.room_name.message}</TextField.Error>
               )}
@@ -144,10 +149,10 @@ export const MyRoomsScreen = () => {
               mt="16px"
               onPress={handleSubmit(onSubmit)}
               isLoading={createChatRoomLoadingState.isLoading}>
-              Criar
+              <Text fontFamily="Poppins_500Medium">Criar</Text>
             </Button>
             <Button variant="ghost" mt="16px" h="30px" onPress={onClose}>
-              Cancelar
+              <Text fontFamily="Poppins_500Medium">Cancelar</Text>
             </Button>
           </Modal.Body>
         </Modal.Content>

@@ -60,7 +60,7 @@ export const ChatRoomInfoScreen: FC<ScreenProps<'chatRoomInfo'>> = ({
             <Output.Value>{formattedDate}</Output.Value>
           </Output.Root>
           <Button mt="24px" onPress={onOpen}>
-            Deletar sala
+            <Text fontFamily="Poppins_500Medium">Deletar sala</Text>
           </Button>
         </Flex>
       </Box>
@@ -76,14 +76,14 @@ export const ChatRoomInfoScreen: FC<ScreenProps<'chatRoomInfo'>> = ({
             <Text color="gray.300" fontSize="16px">
               Você deseja deletar esta sala?
             </Text>
-            <Text color="gray.500" fontSize="14px" fontWeight="light" mt="6px">
+            <Text color="gray.500" fontSize="14px" fontFamily="Poppins_300Light" mt="6px">
               * Depois de confirmada, esta ação não pode ser desfeita.
             </Text>
             <Button mt="16px" onPress={handleDeleteChatRoom} isLoading={isLoading}>
-              Confirmar
+              <Text fontFamily="Poppins_500Medium">Confirmar</Text>
             </Button>
             <Button variant="ghost" mt="16px" h="30px" onPress={onClose}>
-              Cancelar
+              <Text fontFamily="Poppins_500Medium">Cancelar</Text>
             </Button>
           </Modal.Body>
         </Modal.Content>

@@ -31,7 +31,7 @@ export const Header: FC<HeaderProps> = ({ title }) => {
         onPress={goBack}>
         <CaretLeft size={22} color="#A1A1AA" />
       </FactoryTouchableOpacity>
-      <Text color="gray.400" fontSize="16px" fontWeight="medium">
+      <Text color="gray.400" fontSize="16px" fontFamily="Poppins_500Medium">
         {title}
       </Text>
     </Flex>

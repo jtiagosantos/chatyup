@@ -169,15 +169,15 @@ export const EditAvatarModal: FC<EditAvatarProps> = ({ isOpen, onClose }) => {
           )}
           {imagePickerIsDirty ? (
             <Button mt="16px" onPress={handleSubmit(onSubmit)} isLoading={isLoading}>
-              Salvar alteração
+              <Text fontFamily="Poppins_500Medium">Salvar alteração</Text>
             </Button>
           ) : (
             <Button mt="16px" onPress={handlePickImage}>
-              Selecionar arquivo
+              <Text fontFamily="Poppins_500Medium">Selecionar arquivo</Text>
             </Button>
           )}
           <Button variant="ghost" mt="16px" h="30px" onPress={onClose}>
-            Cancelar
+            <Text fontFamily="Poppins_500Medium">Cancelar</Text>
           </Button>
         </Modal.Body>
       </Modal.Content>

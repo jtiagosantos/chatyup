@@ -20,11 +20,11 @@ export const MyProfileScreen = () => {
     <>
       <Box flex={1} bgColor="gray.900" p="24px">
         <Flex flexDir="row" align="center" justify="space-between">
-          <Text color="gray.400" fontSize="16px" fontWeight="medium">
+          <Text color="gray.400" fontSize="16px" fontFamily="Poppins_500Medium">
             Olá, {user?.firstName}!
           </Text>
           <Button maxW="110px" h="36px" onPress={handleNavigationToEditProfileScreen}>
-            Editar perfil
+            <Text fontFamily="Poppins_500Medium">Editar perfil</Text>
           </Button>
         </Flex>
         <Avatar.Root w="110px" h="110px" mx="auto" mt="32px">
@@ -45,8 +45,8 @@ export const MyProfileScreen = () => {
             <Output.Value>{user?.email}</Output.Value>
           </Output.Root>
         </Box>
-        <Button w="30px" variant="ghost" onPress={signOut}>
-          Sair
+        <Button w="40px" variant="ghost" mt="-10px" onPress={signOut}>
+          <Text fontFamily="Poppins_500Medium">Sair</Text>
         </Button>
       </Box>
 

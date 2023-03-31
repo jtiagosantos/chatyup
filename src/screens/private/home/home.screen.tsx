@@ -20,7 +20,7 @@ export const HomeScreen = () => {
         tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarStyle: {
-          height: 54,
+          height: 58,
           paddingBottom: 5,
           borderTopWidth: 0,
           backgroundColor: '#27272a',
@@ -28,6 +28,7 @@ export const HomeScreen = () => {
         tabBarLabelStyle: {
           fontWeight: '500',
           fontSize: 11,
+          fontFamily: 'Poppins_500Medium',
         },
         tabBarActiveTintColor: '#5b21b6',
         tabBarInactiveTintColor: '#52525b',

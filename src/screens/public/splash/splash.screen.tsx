@@ -49,7 +49,7 @@ export const SplashScreen = () => {
           delay: 400,
           damping: 8,
         }}>
-        <Text color="gray.50" fontSize="24px" fontWeight="extrabold" mr="8px">
+        <Text color="gray.50" fontSize="24px" fontFamily="Poppins_800ExtraBold" mr="8px">
           ChatYup
         </Text>
       </MotiView>

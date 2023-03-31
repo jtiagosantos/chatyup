@@ -12,6 +12,7 @@ import {
 } from '@expo-google-fonts/poppins';
 import { NativeBaseProvider } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
+import { theme } from './src/common/styles/theme';
 
 import { UserProvider } from './src/common/contexts/user/user.provider';
 import { SplashProvider } from './src/common/contexts/splash/splash.provider';
@@ -32,7 +33,7 @@ const App = () => {
     <NavigationContainer>
       <SplashProvider>
         <UserProvider>
-          <NativeBaseProvider>
+          <NativeBaseProvider theme={theme}>
             <StatusBar backgroundColor="#18181B" translucent={false} style="light" />
             <AppRoutes />
           </NativeBaseProvider>

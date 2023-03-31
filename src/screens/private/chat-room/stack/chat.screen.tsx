@@ -129,8 +129,8 @@ export const ChatScreen: FC<ScreenProps<'chat'>> = ({
             {code}
           </Output.Value>
         </Output.Root>
-        <Button w="105px" h="100%" onPress={handleLeaveTheRoom}>
-          Sair da sala
+        <Button w="120px" h="100%" onPress={handleLeaveTheRoom}>
+          <Text fontFamily="Poppins_500Medium">Sair da sala</Text>
         </Button>
       </Flex>
       {!findMessagesState.isLoading ? (
@@ -166,6 +166,7 @@ export const ChatScreen: FC<ScreenProps<'chat'>> = ({
             control={control}
             name="message"
             placeholder="Digite a sua mensagem"
+            fontFamily="Poppins_400Regular"
             onSubmitEditing={handleSubmit(onSubmit)}
           />
         </TextField.Root>

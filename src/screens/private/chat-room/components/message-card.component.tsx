@@ -56,7 +56,7 @@ export const MessageCard: FC<MessageProps> = ({
           flexDir="row"
           align="center"
           justify="space-between">
-          <Text color="gray.400" fontSize="14px" fontWeight="medium" mt="-5px">
+          <Text color="gray.400" fontSize="14px" fontFamily="Poppins_500Medium" mt="-5px">
             {ownerName}
           </Text>
           <Text color="gray.500" fontSize="12px">
