@@ -109,6 +109,7 @@ export const SignInForm: FC<SignInFormProps> = ({
           name="password"
           type="password"
           placeholder="Digite sua senha"
+          onEndEditing={handleSubmit(onSubmit)}
         />
         {!!errors.password && (
           <TextField.Error>{errors.password.message}</TextField.Error>
