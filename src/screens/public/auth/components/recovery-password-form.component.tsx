@@ -99,7 +99,7 @@ export const RecoveryPasswordForm: FC<RecoveryPasswordFormProps> = ({
           name="email"
           keyboardType="email-address"
           placeholder="Digite seu e-mail"
-          onEndEditing={handleSubmit(onSubmit)}
+          onSubmitEditing={handleSubmit(onSubmit)}
         />
         {!!errors.email && <TextField.Error>{errors.email.message}</TextField.Error>}
       </TextField.Root>

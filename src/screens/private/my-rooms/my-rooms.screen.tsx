@@ -140,7 +140,7 @@ export const MyRoomsScreen = () => {
                 name="room_name"
                 control={control}
                 fontFamily="Poppins_400Regular"
-                onEndEditing={handleSubmit(onSubmit)}
+                onSubmitEditing={handleSubmit(onSubmit)}
               />
               {!!errors.room_name && (
                 <TextField.Error>{errors.room_name.message}</TextField.Error>
