@@ -1,20 +1,14 @@
 <h1 align="center">Chatyup</h1>
 
 <p align="center">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/jtiagosantos/
-chatyup?color=%green">
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/jtiagosantos/
-chatyup?color=blue">
-  <a href="https://github.com/jtiagosantos/
-chatyup/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jtiagosantos/
-chatyup?color=purple">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/jtiagosantos/chatyup?color=%green">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/jtiagosantos/chatyup?color=blue">
+  <a href="https://github.com/jtiagosantos/alura-tube/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jtiagosantos/chatyup?color=purple">
   </a>
   <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen?color=orange">
-   <a href="https://github.com/jtiagosantos/
-chatyup/stargazers">
-    <img alt="Stargazers" src="https://img.shields.io/github/stars/jtiagosantos/
-chatyup?style=social">
+   <a href="https://github.com/jtiagosantos/chatyup/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/jtiagosantos/chatyup?style=social">
   </a>
 </p>
 
